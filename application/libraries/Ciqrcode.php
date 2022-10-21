@@ -10,6 +10,7 @@
  * 
  * @version		1.0
  */
+// namespace libraries;
  
 class Ciqrcode
 {
@@ -21,16 +22,16 @@ class Ciqrcode
 	
 	function __construct($config = array()) {
 		// call original library
-		include "qrcode/qrconst.php";
-		include "qrcode/qrtools.php";
-		include "qrcode/qrspec.php";
-		include "qrcode/qrimage.php";
-		include "qrcode/qrinput.php";
-		include "qrcode/qrbitstream.php";
-		include "qrcode/qrsplit.php";
-		include "qrcode/qrrscode.php";
-		include "qrcode/qrmask.php";
-		include "qrcode/qrencode.php";
+		include_once "qrcode/qrconst.php";
+		include_once "qrcode/qrtools.php";
+		include_once "qrcode/qrspec.php";
+		include_once "qrcode/qrimage.php";
+		include_once "qrcode/qrinput.php";
+		include_once "qrcode/qrbitstream.php";
+		include_once "qrcode/qrsplit.php";
+		include_once "qrcode/qrrscode.php";
+		include_once "qrcode/qrmask.php";
+		include_once "qrcode/qrencode.php";
 		
 		$this->initialize($config);
 	}

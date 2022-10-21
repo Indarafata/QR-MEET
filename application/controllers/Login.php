@@ -8,13 +8,14 @@ class Login extends CI_Controller
     {
         parent::__construct();
         $this->load->helper(array('captcha', 'form'));
+        // $this->load->library('session');
     }
 
     public function index()
     {
         redirectIfLoggedIn();
 
-        unset($_SESSION['session_meeting_temp']);
+        $this->session->unset_userdata('session_meeting_temp');
 
         $this->form_validation->set_rules('username', 'Username', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
@@ -78,9 +79,11 @@ class Login extends CI_Controller
             $role = $this->Model_App_Roles->getBySittlRoleId($this->input->post('role'));
 
             if (count($role) > 0) {
-                unset($_SESSION['session_meeting_temp']);
+                $this->session->unset_userdata('session_meeting_temp');
+
                 $session['HAKAKSES_ACTIVE'] = (object) $role[0];
-                $this->session->set_userdata('session_meeting', (object) $session);
+                $session = json_decode(json_encode($session));
+                $this->session->set_userdata('session_meeting', $session);
                 
                 if($this->session->userdata('session_meeting')->HAKAKSES_ACTIVE->NAMA == 'MAGANG'){
                     redirect('/magang');
@@ -139,8 +142,8 @@ class Login extends CI_Controller
 
     public function logout()
     {
-        unset($_SESSION['session_meeting']);
-        unset($_SESSION['session_meeting_temp']);
+        $this->session->unset_userdata('session_meeting');
+        $this->session->unset_userdata('session_meeting_temp');
         redirect('login');
     }
 
