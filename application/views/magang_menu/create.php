@@ -1,3 +1,17 @@
+<style>
+    #notify {
+        animation: hideAnimation 0s ease-in 5s;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes hideAnimation {
+    to {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+    }
+    }
+</style>
     <!-- Main content -->
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
@@ -17,73 +31,60 @@
                 <div class="card-wrapper">
                     <!-- Form controls -->
                     <div class="card">
+                    <?= $this->session->flashdata('notif'); ?>
+
                         <!-- Card header -->
-                        <div class="card-header">
-                            <h3 class="mb-0">Detail Absensi</h3>
+                        <div class="card-header bg-gradient-success" id="jarak">
+                            <div class="row">
+                                <div class="col text-left">
+                                    <h3 class="mb-0 text-white">Detail Absensi</h3>
+                                </div>
+                                <div class="col text-right">
+                                    <h6 id="jarak_display" class="text-white"></h6>
+                                </div>
+                            </div>
                         </div>
                         <!-- Card body -->
                         <div class="card-body">
                             <h6>Note : <br>
                             <ul>
-                                <li><i>Pastikan <b>Waktu</b> dan <b
-                                >Lokasi</b> Berwarna Hijau Untuk Melakukan Absensi Agar Tidak Terlambat ! <span class="text-danger">*</span></i></li>
-                                <li><i>Refresh Halaman Sebelum Melakukan Absensi ! <span class="text-danger">*</span></i></li>
-                            </ul>
-                            <ul>
-                                <li>Waktu Absen Pagi Jam 06.00 - 08.00</li>
-                                <li>Waktu Absen Sore Jam 17.00 - 23.00</li>
-                                <li>Lokasi Absen < 2,5 KM dari Kantor Terminal Teluk Lamong</li>
+                                <li><i id="info_jarak"></i></li>
+                                <li><i>Refresh Halaman Sebelum Melakukan Absensi !</i></li>
                             </ul>
                         </h6>
                             <form action="<?php echo base_url('index.php');?>/magang/absen" method="post" enctype="multipart/form-data">
+                                <hr>
+                                <h2 class="text-center" id="jam_kerja"></h2>
+                                <br>
+                                <h3 class="text-center" >Status Absen Anda: </h3>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card bg-gradient-danger" id="absen_pagi">
+                                            <div class="card-body text-center">
+                                                <h2 class="card-title text-white">DATANG</h2>
+                                                <h2 class="card-title text-white" id="jam_absen_datang">
+                                                </h2>
+                                                <blockquote class="blockquote text-white mb-0"><p id="absen1">Anda Sudah Melakukan Absen Kedatangan !</p></blockquote>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card bg-gradient-danger" id="absen_sore" >
+                                            <div class="card-body text-center">
+                                                <h2 class="card-title text-white">PULANG</h2>
+                                                <h2 class="card-title text-white" id="jam_absen_pulang">
+                                                </h2>
+                                                <blockquote class="blockquote text-white mb-0"><p id="absen2">Anda Belum Melakukan Absen Pulang !</p></blockquote>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <input type="hidden" name="txt_jarak" id="txt_jarak">
                                 <input type="hidden" name="txt_lat" id="txt_lat">
                                 <input type="hidden" name="txt_long" id="txt_long">
+                                <input type="hidden" name="txt_abs_jarak" id="txt_abs_jarak">
 
-                                <div class="card bg-gradient-success" id="waktu_display">
-                                    <div class="card-body">
-                                        <h2 class="card-title text-white">
-                                            Waktu :
-                                        </h2>
-                                        <blockquote class="blockquote text-white mb-0"><p id="waktu"></p></blockquote>
-                                    </div>
-                                </div>
-
-                               <div class="card bg-gradient-success" id="j1">
-                                    <div class="card-body">
-                                        <h2 class="card-title text-white">
-                                            Lokasi :
-                                        </h2>
-                                        <blockquote class="blockquote text-white mb-0"><p id="jarak"></p></blockquote>
-                                    </div>
-                                </div>
-                                
-                                <div class="card bg-gradient-danger" id="j2">
-                                    <div class="card-body">
-                                        <h2 class="card-title text-white">
-                                            Lokasi :
-                                        </h2>
-                                        <blockquote class="blockquote text-white mb-0"><p id="jarak2"></p></blockquote>
-                                    </div>
-                                </div>
-                                <hr>
-                                <h4>Status Absen : </h4>
-                                    <div class="row text-center">
-                                        <div class="col">
-                                            <span>Absen Pagi</span>
-                                        </div>
-                                        <div class="col">
-                                            <span>Absen Sore</span>
-                                        </div>
-                                    </div>
-                                    <div class="row text-center">
-                                        <div class="col">
-                                            <span class="btn btn-danger">Belum Absen</span>
-                                        </div>
-                                        <div class="col">
-                                            <span class="btn btn-danger">Belum Absen</span>
-                                        </div>
-                                    </div>
                         </div>
                     </div>
                 </div>
@@ -92,7 +93,7 @@
             <div class="col-lg-12">
                 <div class="card-wrapper">
                     <div class="card">
-                        <button class="btn btn-default btn-block" type="submit">Absensi Sekarang</button>
+                        <button class="btn btn-primary btn-block" type="submit">Absensi Sekarang</button>
                     </div>
                 </div>
             </div>
@@ -105,107 +106,201 @@
       <script type="text/javascript">
         let today = new Date();
 
-        var j1 = document.getElementById("j1");
-        var j2 = document.getElementById("j2");
-
         var x = document.getElementById("jarak");
-        var y = document.getElementById("jarak2");
-
-        var w1 = document.getElementById("w1");
-        var w2 = document.getElementById("w2");
-        var w3 = document.getElementById("w3");
-
-
         var waktu = document.getElementById("waktu");
-        var waktu2 = document.getElementById("waktu2");
-        var waktu3 = document.getElementById("waktu3");
-
 
         $(document).ready(function(){
-            getLocation();
+            showData();
+            getLocation(); 
+            showTime(); 
         });
+       
 
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPositionAndTime);
-            } else {
-                e.innerHTML = "Geolocation is not supported by this browser.";
+            }else {
+                jarak = "Geolocation is not supported by this browser.";
+                document.getElementById("jarak_display").innerHTML = jarak;
+                document.getElementById('jarak').classList.remove('bg-gradient-success');
+                document.getElementById('jarak').classList.add('bg-gradient-danger');
             }
         }
 
+        function showData(){
+                try{
+                    $.ajax({
+                    type  : 'GET',
+                    url   : '<?php echo base_url('index.php/')?>magang/get_current_absen',
+                    async : false,
+                    dataType : 'json',
+                    success : function(data){
+                            if(data != null){
+                            checkinDate = new Date(data.CHECKIN_DATE);
+                            checkinTime =("0" + checkinDate.getHours()).slice(-2) +":"+ ("0" + checkinDate.getMinutes()).slice(-2);
+
+                            checkoutDate = new Date(data.CHECKOUT_DATE);
+                            checkoutTime =("0" + checkoutDate.getHours()).slice(-2) +":"+ ("0" + checkoutDate.getMinutes()).slice(-2);
+
+                                if(data.CHECKIN_DATE != null && data.STATUS_ARR != null && data.STATUS_ARR == 'O'){
+                                    document.getElementById("absen1").innerHTML = "STATUS : <b>ONTIME</b> ";
+                                    document.getElementById('absen_pagi').classList.remove('bg-gradient-danger');
+                                    document.getElementById('absen_pagi').classList.remove('bg-gradient-warning');
+                                    document.getElementById('absen_pagi').classList.add('bg-gradient-success');
+                                }else if(data.CHECKIN_DATE != null && data.STATUS_ARR != null && data.STATUS_ARR == 'E'){
+                                    document.getElementById("absen1").innerHTML = "STATUS : <b>EARLY</b> ";
+                                    document.getElementById('absen_pagi').classList.remove('bg-gradient-danger');
+                                    document.getElementById('absen_pagi').classList.remove('bg-gradient-warning');
+                                    document.getElementById('absen_pagi').classList.add('bg-gradient-success');
+                                }else if(data.CHECKIN_DATE != null && data.STATUS_ARR == 'L'){
+                                    document.getElementById("absen1").innerHTML = "STATUS : <b>LATE</b> ";
+                                    document.getElementById('absen_pagi').classList.remove('bg-gradient-danger');
+                                    document.getElementById('absen_pagi').classList.remove('bg-gradient-success');
+                                    document.getElementById('absen_pagi').classList.add('bg-gradient-warning');
+                                }else{
+                                    document.getElementById("absen1").innerHTML = "STATUS : <b>BELUM ABSEN</b> ";
+                                    document.getElementById('absen_pagi').classList.add('bg-gradient-danger');
+                                    document.getElementById('absen_pagi').classList.remove('bg-gradient-success');
+                                    document.getElementById('absen_pagi').classList.remove('bg-gradient-warning');
+                                }
+                                if(data.STATUS_END == 'O'){
+                                    document.getElementById("absen2").innerHTML = "STATUS : <b>ONTIME</b> ";
+                                    document.getElementById('absen_sore').classList.remove('bg-gradient-danger');
+                                    document.getElementById('absen_sore').classList.add('bg-gradient-success');
+                                }else if(data.STATUS_END == 'E'){
+                                    document.getElementById("absen2").innerHTML = "STATUS : <b>EARLY</b> ";
+                                    document.getElementById('absen_sore').classList.remove('bg-gradient-danger');
+                                    document.getElementById('absen_sore').classList.add('bg-gradient-success');
+                                }else{
+                                    document.getElementById("absen2").innerHTML = "STATUS : <b>BELUM ABSEN</b> ";
+                                    document.getElementById('absen_sore').classList.add('bg-gradient-danger');
+                                    document.getElementById('absen_sore').classList.remove('bg-gradient-success');
+                                }
+                            }else{
+                                document.getElementById("absen1").innerHTML = "STATUS : <b>BELUM ABSEN</b> ";
+                                document.getElementById("absen2").innerHTML = "STATUS : <b>BELUM ABSEN</b> ";
+                                document.getElementById('absen_pagi').classList.add('bg-gradient-danger');
+                                document.getElementById('absen_pagi').classList.remove('bg-gradient-success');
+                                document.getElementById('absen_sore').classList.add('bg-gradient-danger');
+                                document.getElementById('absen_sore').classList.remove('bg-gradient-success');
+                            }
+                        }
+                    });
+                }catch(err){
+                        document.getElementById("absen1").innerHTML = "STATUS : <b>BELUM ABSEN</b> ";
+                        document.getElementById("absen2").innerHTML = "STATUS : <b>BELUM ABSEN</b> ";
+                        document.getElementById('absen_pagi').classList.add('bg-gradient-danger');
+                        document.getElementById('absen_pagi').classList.remove('bg-gradient-success');
+                        document.getElementById('absen_sore').classList.add('bg-gradient-danger');
+                        document.getElementById('absen_sore').classList.remove('bg-gradient-success');
+                }
+            }
+        
+            function showTime(){
+                $.ajax({
+                    type  : 'GET',
+                    url   : '<?php echo base_url('index.php/')?>magang/get_abs_time',
+                    async : false,
+                    dataType : 'json',
+                    success : function(data){
+                        time_point_arr = new Date(data.TIME_ARR);
+                        time_point_end = new Date(data.TIME_END);
+
+                        document.getElementById("jam_kerja").innerHTML = "Jam Kerja ("+("0" + time_point_arr.getHours()).slice(-2) +":"+ ("0" + time_point_arr.getMinutes()).slice(-2)+" - " +("0" + time_point_end.getHours()).slice(-2) +":"+ ("0" + time_point_end.getMinutes()).slice(-2)+")";
+                    }
+                });
+
+                $.ajax({
+                    type  : 'GET',
+                    url   : '<?php echo base_url('index.php/')?>magang/get_current_absen',
+                    async : false,
+                    dataType : 'json',
+                    success : function(data){
+                        if(data.CHECKIN_DATE != null){
+                            time_absen_arr = new Date(data.CHECKIN_DATE);
+                            document.getElementById("jam_absen_datang").innerHTML = ("0" + time_absen_arr.getHours()).slice(-2) +":"+ ("0" + time_absen_arr.getMinutes()).slice(-2);
+                        }else{
+                            document.getElementById("jam_absen_datang").innerHTML = ".. : ..";
+                        }
+
+                        if(data.CHECKOUT_DATE != null){
+                            time_absen_end = new Date(data.CHECKOUT_DATE);
+                            document.getElementById("jam_absen_pulang").innerHTML = ("0" + time_absen_end.getHours()).slice(-2) +":"+ ("0" + time_absen_end.getMinutes()).slice(-2);
+                        }else{
+                            document.getElementById("jam_absen_pulang").innerHTML = ".. : ..";
+                        }
+
+                    }
+                });
+            }
+
+
         function showPositionAndTime(position) {
 
+            $.ajax({
+                    type  : 'GET',
+                    url   : '<?php echo base_url('index.php/')?>magang/get_abs_area',
+                    async : false,
+                    dataType : 'json',
+                    success : function(data){
+                        var jarak_x = 0;
+                        var i = 0;
+                        var abs_jarak = 0;
 
-                jamMasuk1 = 0;
-                jamMasuk2 = 7;
+                        for (let index = 0; index < data.length; index++) {
+                            // Fungsi Jarak
+                            lat1 = position.coords.latitude;
+                            lon1 = position.coords.longitude;
+                            
+                            lat2 = data[index].LAT;
+                            lon2 = data[index].LON;
 
-                jamPulang1 = 17;
-                jamPulang2 = 23;
+                            var R = 6371; // km (change this constant to get miles)
+                            var dLat = (lat2-lat1) * Math.PI / 180;
+                            var dLon = (lon2-lon1) * Math.PI / 180;
+                            var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) * Math.sin(dLon/2) * Math.sin(dLon/2);
+                            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                            var d = R * c;
 
-                // Fungsi Jarak
-                lat1 = position.coords.latitude;
-                lon1 = position.coords.longitude;
-                
-                lat2 = -7.204690;
-                lon2 = 112.669110;
+                            // console.log(data[index].AREA_NAME+" : "+d);
+                            if(index == 0){
+                                jarak_x = d;
+                                i = 0;
+                            }else if(d < jarak_x){
+                                i = index;
+                                area = data[index].AREA_NAME;
+                                jarak_x = d;   
+                            }
+                                // getKm = Math.round(d);
+                                // getM = Math.round(d*1000);
+                        }
 
-                var R = 6371; // km (change this constant to get miles)
-                var dLat = (lat2-lat1) * Math.PI / 180;
-                var dLon = (lon2-lon1) * Math.PI / 180;
-                var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) * Math.sin(dLon/2) * Math.sin(dLon/2);
-                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-                var d = R * c;
+                        $.ajax({
+                            type  : 'GET',
+                            url   : '<?php echo base_url('index.php/')?>magang/get_abs_jarak',
+                            async : false,
+                            dataType : 'json',
+                            success : function(data){
+                                abs_jarak = data.PARAM1;
+                                document.getElementById('info_jarak').innerHTML = "Jarak Anda Harus < "+abs_jarak +" km Dari Checkpoint Absensi Yang Terdaftar"; 
+                            }
+                        });
 
-                // getKm = Math.round(d);
-                // getM = Math.round(d*1000);
+                        document.getElementById('txt_jarak').value = jarak_x; 
+                        document.getElementById('txt_lat').value = lat1; 
+                        document.getElementById('txt_long').value = lon2; 
 
-                document.getElementById("txt_jarak").value = d;
-                document.getElementById("txt_lat").value = lat1;
-                document.getElementById("txt_long").value = lon1;
-
-
-                if(d < 2.5){
-                    jarak = "Anda Sudah Masuk Area Terminal Teluk Lamong (Masuk Jangkauan Absensi)";
-                    x.innerHTML = jarak;
-
-                    j1.style.display = "block";
-                    j2.style.display = "none";
-                }else{
-                    jarak = "Anda Belum Masuk Area Terminal Teluk Lamong (Belum Masuk Jangkauan Absensi) , Jarak Anda Sekarang ( "+Math.round(d)+" KM ) Dari TTL";
-                    y.innerHTML = jarak;
-
-                    j2.style.display = "block";
-                    j1.style.display = "none";
-                }
-                
-
-                // Fungsi Waktu
-                if(today.getHours() >= jamMasuk1 && today.getHours() <= jamMasuk2 && today.getMinutes() >= 0 && today.getMinutes() <= 59){
-                    waktu.innerHTML = "Masuk Waktu Absensi Pagi Jam "+jamMasuk1+".00 - "+jamMasuk2+".00";
-                    document.getElementById("waktu_display").classList.add('bg-gradient-success');
-                    document.getElementById("waktu_display").classList.remove('bg-gradient-danger');
-                    document.getElementById("waktu_display").classList.remove('bg-gradient-warning');
-
-                }else if(today.getHours() >= jamPulang1 && today.getHours() <= jamPulang2 && today.getMinutes() >= 0 && today.getMinutes() <= 59){
-                    waktu.innerHTML = "Waktunya Masuk Absensi Sore Jam "+jamPulang1+".00 - "+jamPulang2+".00";
-                    document.getElementById("waktu_display").classList.add('bg-gradient-success');
-                    document.getElementById("waktu_display").classList.remove('bg-gradient-danger');
-                    document.getElementById("waktu_display").classList.remove('bg-gradient-warning');
-
-                }else if(today.getHours() >= jamMasuk2 && today.getHours() <= jamPulang1 && today.getMinutes() >= 0 && today.getMinutes() <= 59){
-                    waktu.innerHTML = "Waktunya Jam Masuk , Jam "+(jamMasuk2+1)+".00 - "+jamPulang1+".00 . Silahkan Lakukan Absen Jika Belum Absen";
-                    document.getElementById("waktu_display").classList.remove('bg-gradient-success');
-                    document.getElementById("waktu_display").classList.remove('bg-gradient-danger');
-                    document.getElementById("waktu_display").classList.add('bg-gradient-warning');
-
-                }else{
-                    waktu2.innerHTML = "Tidak Masuk Waktu Absen , Silahkan Absen Sesuai Waktu Yang Berlaku";
-                    document.getElementById("waktu_display").classList.remove('bg-gradient-success');
-                    document.getElementById("waktu_display").classList.add('bg-gradient-danger');
-                    document.getElementById("waktu_display").classList.remove('bg-gradient-warning');
-                }
-                
-
-                
+                        if(jarak_x < abs_jarak){
+                            
+                            document.getElementById("jarak_display").innerHTML = "Bisa Absen , Anda Masuk Sekitaran "+data[i].AREA_NAME;
+                            document.getElementById('jarak').classList.add('bg-gradient-success');
+                            document.getElementById('jarak').classList.remove('bg-gradient-danger');
+                        }else{
+                            document.getElementById("jarak_display").innerHTML = "Tidak Bisa Absen , Jarak Anda "+Math.round(jarak_x*1000)+" m dari "+data[i].AREA_NAME+ " (Checkpoint Terdekat)";
+                            document.getElementById('jarak').classList.add('bg-gradient-danger');
+                            document.getElementById('jarak').classList.remove('bg-gradient-success');      
+                        }
+                    }
+                });
             }
       </script>

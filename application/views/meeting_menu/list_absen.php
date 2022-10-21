@@ -19,7 +19,6 @@
                 <img src="<?= base_url();?>/assets/img/brand/logo.png" alt="" width="300px">
                 <div class="row text-center">
                     <div class="col">
-                    <h4 id="kode"></h4>
                     <h4 id="nama"></h4>
                     <h4 id="tanggal"></h4>
                     <h4 id="lokasi"></h4>
@@ -113,13 +112,9 @@
             success : function(data){
               
                 var date =   new Date(data.EVENT_DATE).toLocaleString(undefined, {year: 'numeric', month: '2-digit', day: '2-digit'});
-                var endDate =   new Date(data.END_DATE).toLocaleString(undefined, {hour: '2-digit', hour12: false, minute:'2-digit'});
-                var startDate =   new Date(data.START_DATE).toLocaleString(undefined, {hour: '2-digit', hour12: false, minute:'2-digit'});
 
-
-                $("#kode").text('ID MEETING : '+data.ID_MEETING);
-                $("#nama").text('NAMA MEETING : '+data.EVENT);
-                $("#tanggal").text('TANGGAL MEETING : '+date+' ( '+startDate+' - '+endDate+' )');
+                $("#nama").text(data.EVENT);
+                $("#tanggal").text('WAKTU MEETING : '+date+' ( '+data.WAKTU+' )');
                 $("#lokasi").text('LOKASI MEETING : '+data.LOCATION);
                 var a = document.getElementById('print'); //or grab it by tagname etc
                 var b = document.getElementById('export'); //or grab it by tagname etc

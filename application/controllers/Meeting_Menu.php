@@ -112,7 +112,7 @@ class meeting_menu extends CI_Controller {
             $row[] = '<span>'.$value->ID_MEETING.'</span>';
             $row[] = $value->EVENT;
             $row[] = date("Y-M-d", strtotime($value->EVENT_DATE));
-            $row[] = '<span>'.date("H:i", strtotime($value->START_DATE)).' - '. date("H:i", strtotime($value->END_DATE)).'</span>';
+            $row[] = $value->WAKTU;
             $row[] = $value->ID_DEPT;
             $row[] = $value->LOCATION;
             $data[] = $row;
@@ -356,7 +356,7 @@ class meeting_menu extends CI_Controller {
         echo json_encode($data);
     }
     public function meeting_detail($id){
-        $data = $this->db->query("SELECT * FROM MEETING.MEETING WHERE ID_MEETING = '$id'")->row();
+        $data = $this->db->query("SELECT * FROM MEETING.VW_MEETING WHERE ID_MEETING = '$id'")->row();
         echo json_encode($data);
     }
     public function meeting_list_absen($id){

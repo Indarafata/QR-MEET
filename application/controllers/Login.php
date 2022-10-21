@@ -81,7 +81,12 @@ class Login extends CI_Controller
                 unset($_SESSION['session_meeting_temp']);
                 $session['HAKAKSES_ACTIVE'] = (object) $role[0];
                 $this->session->set_userdata('session_meeting', (object) $session);
-                redirect('/');
+                
+                if($this->session->userdata('session_meeting')->HAKAKSES_ACTIVE->NAMA == 'MAGANG'){
+                    redirect('/magang');
+                }else{
+                    redirect('/');
+                }
             }
         }
     }

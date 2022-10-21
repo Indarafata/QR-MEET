@@ -21,8 +21,8 @@ class Meeting_Model extends CI_Model {
     {
         $this->db->where('LOCATION is not null');
         $this->db->select('*')->from($this->table);
-        $column_orderTopUp = array(null ,null, 'ID_MEETING', 'EVENT','EVENT_DATE','START_DATE' , 'ID_DEPT', 'LOCATION');
-        $column_searchTopUp = array(null ,null, 'ID_MEETING', 'EVENT','EVENT_DATE' , 'START_DATE' ,'ID_DEPT' , 'LOCATION');
+        $column_orderTopUp = array(null ,null, 'ID_MEETING', 'EVENT','EVENT_DATE','WAKTU' , 'ID_DEPT', 'LOCATION');
+        $column_searchTopUp = array(null ,null, 'ID_MEETING', 'EVENT','EVENT_DATE' , 'WAKTU' ,'ID_DEPT' , 'LOCATION');
         $order = array('CREATED_DATE' => 'desc'); 
  
         $this->datatable_order_search($order, $column_orderTopUp, $column_searchTopUp);
