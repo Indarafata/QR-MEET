@@ -64,9 +64,7 @@ class magang_admin extends CI_Controller {
                 'CREATED_BY' => $this->session->userdata('session_meeting')->USERNAME
             );
             $this->Magang_Model->insert_lokasi($data);
-            $this->session->set_flashdata('notif', $this->notify_success('Anda Berhasil Menambahkan Lokasi Baru'));								
         }catch(Exception $e){
-            $this->session->set_flashdata('notif', $this->notify_danger('Anda Gagal Tambah Lokasi Baru'));								
         }
         redirect('/magang_admin');
     }
@@ -92,10 +90,8 @@ class magang_admin extends CI_Controller {
             $this->Magang_Model->update_magang_time($data_abs_time);
             $this->Magang_Model->update_magang_interval($data_abs_interval);
             $this->Magang_Model->update_magang_jarak($data_abs_jarak);
-    
-            $this->session->set_flashdata('notif', $this->notify_success('Anda Berhasil Update Data'));
         }catch(Exception $e){
-            $this->session->set_flashdata('notif', $this->notify_danger('Gagal Update Data'));								
+
         }
         redirect('/magang_admin');
     }
@@ -122,10 +118,10 @@ class magang_admin extends CI_Controller {
 			}
 
 			if($value->CHECKIN_DATE == null){
-				$checkin_date = "-";
+				$checkin_date = ".. : ..";
 				$status_arr = "<span class='text-white bg-gradient-danger p-2'>TIDAK ABSEN</span>";
 			}else{
-				$checkin_date = '<span>'.date("H:m", strtotime($value->CHECKIN_DATE)).'</span>';
+				$checkin_date = '<span>'.date("H:i", strtotime($value->CHECKIN_DATE)).'</span>';
 				if($value->STATUS_ARR == 'E'){
 					$status_arr = "<span class='text-white bg-gradient-success p-2'>EARLY</span>";
 				}else if ($value->STATUS_ARR == 'O'){
@@ -138,10 +134,10 @@ class magang_admin extends CI_Controller {
 			}
 
 			if($value->CHECKOUT_DATE == null){
-				$checkout_date = "-";
+				$checkout_date = ".. : ..";
 				$status_end = "<span class='text-white bg-gradient-danger p-2'>TIDAK ABSEN</span>";
 			}else{
-				$checkout_date = '<span>'.date("H:m", strtotime($value->CHECKOUT_DATE)).'</span>';
+				$checkout_date = '<span>'.date("H:i", strtotime($value->CHECKOUT_DATE)).'</span>';
 				if($value->STATUS_END == 'E'){
 					$status_end = "<span class='text-white bg-gradient-success p-2'>EARLY</span>";
 				}else if ($value->STATUS_END == 'O'){
@@ -181,34 +177,4 @@ class magang_admin extends CI_Controller {
     function get_interval(){
         echo json_encode($this->db->query("SELECT PARAM1 , PARAM2 FROM GEN_REF WHERE CODE_REF = 'ABS_INTERVAL'")->ROW());
     }
-
-    public function notify_success($content){
-		return '<div data-notify="container" id="notify" class="alert alert-dismissible alert-success alert-notify animated fadeInDown" 
-				role="alert" data-notify-position="top-center" 
-				style="display: inline-block; margin: 0px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1080; top: 15px; left: 0px; right: 0px; animation-iteration-count: 1;">
-				<span class="alert-icon ni ni-bell-55" data-notify="icon"></span> 
-				<div class="alert-text" <="" div=""> 
-					<span class="alert-title" data-notify="title"> 
-						Notifikasi</span> <span data-notify="message">
-						'.$content.'
-					</span>
-				</div>
-			</div>';
-	}
-
-    public function notify_danger($content){
-		return '<div data-notify="container" id="notify" class="alert alert-dismissible alert-danger alert-notify animated fadeInDown" 
-				role="alert" data-notify-position="top-center" 
-				style="display: inline-block; margin: 0px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1080; top: 15px; left: 0px; right: 0px; animation-iteration-count: 1;">
-				<span class="alert-icon ni ni-bell-55" data-notify="icon"></span> 
-				<div class="alert-text" <="" div=""> 
-					<span class="alert-title" data-notify="title"> 
-						Notifikasi</span> <span data-notify="message">
-						'.$content.'
-					</span>
-				</div>
-			</div>';
-	}
-
-
 }

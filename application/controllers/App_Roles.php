@@ -26,10 +26,7 @@ class App_Roles extends CI_Controller {
 	{
 		if($this->input->post('submit') != '') 
 		{
-			if($this->Model_App_Roles->insert())
-				$this->session->set_flashdata('notif', '<div class="alert alert-success">Sukses insert data</div>');
-			else
-				$this->session->set_flashdata('notif', '<div class="alert alert-danger">Gagal insert data</div>');
+			$this->Model_App_Roles->insert();
 			redirect('App_Roles');
 		}
 		else 
@@ -45,10 +42,7 @@ class App_Roles extends CI_Controller {
 	{
 		if($this->input->post('submit') != '') 
 		{
-			if($this->Model_App_Roles->update($id))
-				$this->session->set_flashdata('notif', '<div class="alert alert-success">Sukses update data</div>');
-			else
-				$this->session->set_flashdata('notif', '<div class="alert alert-danger">Gagal update data</div>');
+			$this->Model_App_Roles->update($id);
 			redirect('App_Roles');
 		}
 		else 
@@ -64,10 +58,7 @@ class App_Roles extends CI_Controller {
 
 	public function delete($id)
 	{
-		if($this->Model_App_Roles->delete($id))
-			$this->session->set_flashdata('notif', '<div class="alert alert-success">Sukses delete data</div>');
-		else
-			$this->session->set_flashdata('notif', '<div class="alert alert-danger">Gagal delete data</div>');
+		$this->Model_App_Roles->delete($id);
 		redirect('App_Roles');
 	}
 
@@ -77,13 +68,7 @@ class App_Roles extends CI_Controller {
 
 		if($this->input->post('submit') != '') 
 		{
-			if($this->Model_App_Menu_Roles->update_menu($id, $this->input->post('menus')))
-				// if($this->Model_App_Platform->update_roles($id, $this->input->post('platforms'))) 
-					$this->session->set_flashdata('notif', '<div class="alert alert-success">Sukses update data</div>');
-				// else
-				// 	$this->session->set_flashdata('notif', '<div class="alert alert-danger">Gagal update Platform</div>');
-			else
-				$this->session->set_flashdata('notif', '<div class="alert alert-danger">Gagal update data</div>');
+			$this->Model_App_Menu_Roles->update_menu($id, $this->input->post('menus'));
 			redirect('App_Roles');
 		}
 		else 

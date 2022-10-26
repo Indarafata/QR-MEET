@@ -86,12 +86,10 @@ class user_menu extends CI_Controller {
                 'CREATED_DATE' => date("Y-m-d H:i:s"),
             );
             $this->User_Menu_Model->insert($data);
-            $this->session->set_flashdata('in',1);
 
             redirect(base_url('index.php/user_menu'));
 
         }else if($query[0]->TOTAL >= 1){
-            $this->session->set_flashdata('in',1);
             redirect(base_url('index.php/user_menu/create_page'));
 
         }

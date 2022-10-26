@@ -357,14 +357,12 @@ class User extends CI_Controller {
 				$data['id']=$this->input->post("txt_id");
 				$data['txt_email']=$this->input->post("txt_email");
 	
-				$this->session->set_flashdata('in',2);
 				redirect('/meeting_menu');		
 			}else{
 				$data['user_sql'] = $this->user->get_user_list();
 				$data['id']=$this->input->post("txt_id");
 				$data['txt_email']=$this->input->post("txt_email");
 	
-				$this->session->set_flashdata('in',1);
 				redirect('/meeting_menu');		
 			}
 	}

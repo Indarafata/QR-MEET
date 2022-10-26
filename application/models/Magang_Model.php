@@ -38,6 +38,7 @@ class Magang_Model extends CI_Model {
 
     private function _get_datatables_query_log_absensi_arr($nipp)
     {
+        $this->db->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI'");
         $this->db->where('NIPP',$nipp);
         $this->db->select('*')->from($this->table);
         $column_orderTopUp = array(null , 'CREATED_DATE','CHECKIN_DATE' , 'CHECKOUT_DATE');
@@ -72,6 +73,7 @@ class Magang_Model extends CI_Model {
 
     private function _get_datatables_query_log_absensi_all()
     {
+        $this->db->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI'");
         $this->db->select('*')->from($this->table);
         $column_orderTopUp = array(null ,'CREATED_DATE','NAMA','CHECKIN_DATE','CHECKOUT_DATE');
         $column_searchTopUp = array(null ,'CREATED_DATE','NAMA','CHECKIN_DATE', 'CHECKOUT_DATE');

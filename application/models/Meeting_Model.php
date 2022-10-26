@@ -19,10 +19,11 @@ class Meeting_Model extends CI_Model {
 
     private function _get_datatables_query_meeting()
     {
+        $this->db->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'");
         $this->db->where('LOCATION is not null');
         $this->db->select('*')->from($this->table);
-        $column_orderTopUp = array(null ,null, 'ID_MEETING', 'EVENT','EVENT_DATE','WAKTU' , 'ID_DEPT', 'LOCATION');
-        $column_searchTopUp = array(null ,null, 'ID_MEETING', 'EVENT','EVENT_DATE' , 'WAKTU' ,'ID_DEPT' , 'LOCATION');
+        $column_orderTopUp = array(null ,null, 'ID_MEETING', 'EVENT' ,'USERNAME','EVENT_DATE','WAKTU' , 'ID_DEPT', 'LOCATION');
+        $column_searchTopUp = array(null ,null, 'ID_MEETING', 'EVENT','USERNAME','EVENT_DATE' , 'WAKTU' ,'ID_DEPT' , 'LOCATION');
         $order = array('CREATED_DATE' => 'desc'); 
  
         $this->datatable_order_search($order, $column_orderTopUp, $column_searchTopUp);

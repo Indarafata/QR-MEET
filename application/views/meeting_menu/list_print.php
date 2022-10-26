@@ -82,8 +82,8 @@
                 <thead>
                   <tr>
                     <th scope="col">ID USER</th>
-                    <th scope="col">USERNAME</th>
                     <th scope="col">ID MEETING</th>
+                    <th scope="col">USERNAME</th>
                     <th scope="col">EMAIL</th>
                     <th scope="col">NAMA DEPARTEMENT</th>
                     <th scope="col">COMPANY</th>

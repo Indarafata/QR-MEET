@@ -32,10 +32,7 @@ class App_Menu extends CI_Controller {
 
 		if($this->form_validation->run()) 
 		{
-			if($this->Model_App_Menu->insert())
-				$this->session->set_flashdata('notif', '<div class="alert alert-success">Sukses insert data</div>');
-			else
-				$this->session->set_flashdata('notif', '<div class="alert alert-danger">Gagal insert data</div>');
+			$this->Model_App_Menu->insert();
 			redirect('App_Menu');
 		}
 		else 
@@ -59,10 +56,8 @@ class App_Menu extends CI_Controller {
 
 		if($this->form_validation->run()) 
 		{
-			if($this->Model_App_Menu->update($id))
-				$this->session->set_flashdata('notif', '<div class="alert alert-success">Sukses update data</div>');
-			else
-				$this->session->set_flashdata('notif', '<div class="alert alert-danger">Gagal update data</div>');
+			$this->Model_App_Menu->update($id);
+				
 			redirect('App_Menu');
 		}
 		else 
@@ -79,19 +74,13 @@ class App_Menu extends CI_Controller {
 
 	public function delete($id)
 	{
-		if($this->Model_App_Menu->delete($id))
-			$this->session->set_flashdata('notif', '<div class="alert alert-success">Sukses delete data</div>');
-		else
-			$this->session->set_flashdata('notif', '<div class="alert alert-danger">Gagal delete data</div>');
+		$this->Model_App_Menu->delete($id);
 		redirect('App_Menu');
 	}
 
 	public function active($id)
 	{
-		if($this->Model_App_Menu->active($id, $this->input->get('status')))
-			$this->session->set_flashdata('notif', '<div class="alert alert-success">Sukses update data</div>');
-		else
-			$this->session->set_flashdata('notif', '<div class="alert alert-danger">Gagal update data</div>');
+		$this->Model_App_Menu->active($id, $this->input->get('status'));
 		redirect('App_Menu');
 	}
 

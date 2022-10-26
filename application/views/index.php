@@ -112,7 +112,7 @@
                 <div class="dropdown-header noti-title">
                   <h5 class="text-overflow m-0">Welcome! <br> <b><?= $this->session->userdata('session_meeting')->NAMA ? substr($this->session->userdata('session_meeting')->NAMA, 0, 100) : 'X' ?></b></h5>
                 </div>
-                <a href="<?= base_url('index.php/login/chooserole') ?>" class="dropdown-item">
+                <a href="#" class="dropdown-item">
                   <i class="ni ni-single-02"></i>
                   <span><?= $this->session->userdata('session_meeting')->HAKAKSES_ACTIVE->NAMA ?></span>
                 </a>

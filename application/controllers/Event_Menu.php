@@ -85,12 +85,10 @@ class Event_Menu extends CI_Controller {
                 'UPDATE_DATE' => date("Y-m-d H:i:s")
             );
             $this->Event_Model->insert($data);
-            $this->session->set_flashdata('in',1);
 
             redirect(base_url('index.php/event_menu'));
 
         }else if($query[0]->TOTAL >= 1){
-            $this->session->set_flashdata('in',1);
             redirect(base_url('index.php/event_menu/create_page'));
 
         }
@@ -109,7 +107,6 @@ class Event_Menu extends CI_Controller {
                 'UPDATE_DATE' => date("Y-m-d H:i:s")
             );
             $this->Event_Model->update($data , $id_event);
-            $this->session->set_flashdata('in',2);
 
             redirect(base_url('index.php/event_menu'));
     }

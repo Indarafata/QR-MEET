@@ -103,7 +103,9 @@ class meeting_menu extends CI_Controller {
                         '<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">'.
                             '<a class="dropdown-item" href="'.site_url('meeting_menu/update_page/').$value->ID_MEETING.'">Edit Meeting</a>'.
                             '<a class="dropdown-item" href="'.base_url('temp/file/').$value->FILE_URL.'">File</a>'.
-                            '<a class="dropdown-item" href="'.site_url('meeting_menu/qr_code_page/').$value->ID_MEETING.'" target="_blank">QR Code</a>'.
+                            '<input type="text" class="cpas" value="'.$value->URL_QR.'" id="ct'.$no.'">'.
+                            '<button class="dropdown-item" onClick="myFunction('.$no.')">Copy Link</button>'.
+                            '<a class="dropdown-item" href="'.site_url('meeting_menu/qr_code_page/').$value->ID_MEETING.'">QR Code</a>'.
                             '<a class="dropdown-item" href="'.site_url('meeting_menu/add_peserta/').$value->ID_MEETING.'">Tambah Peserta</a>'.
                             '<a class="dropdown-item" href="'.site_url('meeting_menu/list_absen_page/'.$value->ID_MEETING).'">List Absensi</a>'.
                         '</div>'.
@@ -111,7 +113,8 @@ class meeting_menu extends CI_Controller {
                     '</td>';
             $row[] = '<span>'.$value->ID_MEETING.'</span>';
             $row[] = $value->EVENT;
-            $row[] = date("Y-M-d", strtotime($value->EVENT_DATE));
+            $row[] = $value->USERNAME;
+            $row[] = $value->EVENT_DATE;
             $row[] = $value->WAKTU;
             $row[] = $value->ID_DEPT;
             $row[] = $value->LOCATION;
@@ -222,32 +225,8 @@ class meeting_menu extends CI_Controller {
 			}
 			
 			$data['img_url']=$qr_image;	
-
-            $query = 'SELECT * FROM MEETING.MEETING WHERE CREATED_DATE is not null ORDER BY CREATED_DATE DESC';
-            $id_meeting_temp = $this->db->query($query)->row()->ID_MEETING;
-            if($id_meeting_temp == null){
-                $seq = 0;
-            }else{
-                $arrayId = str_split($id_meeting_temp);
-                $getLength = sizeof(str_split($id_meeting_temp));
-                $getSeq = $getLength-8;
-                $getYear = $getLength-4;
-                
-                $seqYear = $arrayId[$getYear].$arrayId[$getYear+1].$arrayId[$getYear+2].$arrayId[$getYear+3];
-    
-                $seq = $arrayId[$getSeq].$arrayId[$getSeq+1].$arrayId[$getSeq+2].$arrayId[$getSeq+3];
-            }
-
-            // Jika Tahun berganti maka sequence akan ke reset 0001 , contoh dari 2022 ke 2023 maka id meeting RPT00012023
-            if($seqYear != date('Y' , strtotime($timeNow))){
-                $seq = str_pad(1, 4, '0', STR_PAD_LEFT);
-            }else{
-                $seq = str_pad($seq+1, 4, '0', STR_PAD_LEFT);
-            }  
-
 		
 			$values = array(
-                'ID_MEETING' => $id_event.$seq.date('Y' , strtotime($timeNow)),
                 'ID_EVENT' =>$id_event,
                 'EVENT_DATE' => $event_date,
                 'EVENT' => $meeting_name,

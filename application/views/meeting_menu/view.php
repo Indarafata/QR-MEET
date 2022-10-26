@@ -1,3 +1,8 @@
+    <style>
+    .cpas{
+      display:none;
+    }
+    </style>
     <div class="header bg-primary pb-6">
       <div class="container-fluid">
         <div class="header-body">
@@ -53,6 +58,7 @@
                     <th>Aksi</th>
                     <th>ID Meeting</th>
                     <th style="word-wrap: break-word;min-width: 160px;max-width: 160px;">Nama Meeting</th>
+                    <th>Created By</th>
                     <th>Event Date</th>
                     <th>Waktu</th>
                     <th>Departement</th>
@@ -74,9 +80,26 @@
     var table;
     var site_url = '<?=site_url()?>';
 
+    let buttonList = document.querySelectorAll(".button");
+
+    function myFunction(no) {
+      // Get the text field
+      var copyText = document.getElementById("ct"+no);
+      console.log(copyText);
+      // Select the text field
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); // For mobile devices
+
+      // Copy the text inside the text field
+      navigator.clipboard.writeText(copyText.value);
+      
+      // Alert the copied text
+      alert("Copied the text: " + copyText.value);
+    }
+
 
     $(document).ready(function() {
-        var columnFilter = [2,3,6];
+        var columnFilter = [2,3,4,5,6];
 
         $('#datatable-buttons thead tr').clone(true).appendTo( '#datatable-buttons thead' );
         $('#datatable-buttons thead tr:eq(1) th').each( function (i) {
@@ -105,10 +128,9 @@
             }
         } );
         refreshDatatable();
+        // copyToClipboard();
     });
-
     
-
     function refreshDatatable() {
         $('#datatable-buttons').DataTable({
            "filter": true,

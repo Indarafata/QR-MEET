@@ -31,8 +31,7 @@
                 <div class="card-wrapper">
                     <!-- Form controls -->
                     <div class="card">
-                    <?= $this->session->flashdata('notif'); ?>
-
+                        <div id="notif"></div>
                         <!-- Card header -->
                         <div class="card-header bg-gradient-success" id="jarak">
                             <div class="row">
@@ -52,7 +51,7 @@
                                 <li><i>Refresh Halaman Sebelum Melakukan Absensi !</i></li>
                             </ul>
                         </h6>
-                            <form action="<?php echo base_url('index.php');?>/magang/absen" method="post" enctype="multipart/form-data">
+                            <!-- <form action="<?php echo base_url('index.php');?>/magang/absen" method="post" enctype="multipart/form-data"> -->
                                 <hr>
                                 <h2 class="text-center" id="jam_kerja"></h2>
                                 <br>
@@ -83,7 +82,6 @@
                                 <input type="hidden" name="txt_jarak" id="txt_jarak">
                                 <input type="hidden" name="txt_lat" id="txt_lat">
                                 <input type="hidden" name="txt_long" id="txt_long">
-                                <input type="hidden" name="txt_abs_jarak" id="txt_abs_jarak">
 
                         </div>
                     </div>
@@ -93,11 +91,11 @@
             <div class="col-lg-12">
                 <div class="card-wrapper">
                     <div class="card">
-                        <button class="btn btn-primary btn-block" type="submit">Absensi Sekarang</button>
+                        <button class="btn btn-primary btn-block" onclick="absen();">Absensi Sekarang</button>
                     </div>
                 </div>
             </div>
-            </form>
+            <!-- </form> -->
 
         </div>
     </div>
@@ -112,8 +110,44 @@
         $(document).ready(function(){
             showData();
             getLocation(); 
-            showTime(); 
+            showTime();
         });
+
+        function absen(){
+            var formData = {
+                'txt_jarak' : $('#txt_jarak').val(),
+                'txt_lat' : $('#txt_lat').val(),
+                'txt_long' : $('#txt_long').val(),
+            }
+            $.ajax({
+                url: '<?php echo base_url('index.php/')?>magang/absen',
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(data) {
+                    data.status = data.status != 'success' ? 'danger' : 'success';
+                    document.getElementById("notif").innerHTML = '<div data-notify="container" id="notify" class="alert alert-dismissible alert-'+data.status+' alert-notify animated fadeInDown" '+
+                                                                        'role="alert" data-notify-position="top-center" '+
+                                                                        'style="display: inline-block; margin: 0px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1080; top: 15px; left: 0px; right: 0px; animation-iteration-count: 1;">'+
+                                                                        '<span class="alert-icon ni ni-bell-55" data-notify="icon"></span> '+
+                                                                        '<div class="alert-text" <="" div=""> '+
+                                                                            '<span class="alert-title" data-notify="title">'+ 
+                                                                                'Notifikasi</span> <span data-notify="message">'+
+                                                                                ''+data.msg+''+
+                                                                            '</span>'+
+                                                                        '</div>'+
+                                                                    '</div>';
+
+                    showData();
+                    showTime();
+
+                },
+                error: function(result){
+                    console.log(result);
+                    alert('Something went wrong');
+                }
+            });
+        }
        
 
         function getLocation() {

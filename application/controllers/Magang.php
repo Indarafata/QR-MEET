@@ -40,17 +40,11 @@ class magang extends CI_Controller {
 		$created_date = '';
 
         foreach ($list as $value) {
-			if($value->CREATED_DATE != null){
-				$created_date = '<span>'.date("d-M-Y", strtotime($value->CREATED_DATE)).'</span>';
-			}else{
-				$created_date = '-';
-			}
-
 			if($value->CHECKIN_DATE == null){
-				$checkin_date = "-";
+				$checkin_date = ".. : ..";
 				$status_arr = "<span class='text-white bg-gradient-danger p-2'>TIDAK ABSEN</span>";
 			}else{
-				$checkin_date = '<span>'.date("H:m", strtotime($value->CHECKIN_DATE)).'</span>';
+				$checkin_date = '<span>'.date("H:i", strtotime($value->CHECKIN_DATE)).'</span>';
 				if($value->STATUS_ARR == 'E'){
 					$status_arr = "<span class='text-white bg-gradient-success p-2'>EARLY</span>";
 				}else if ($value->STATUS_ARR == 'O'){
@@ -63,10 +57,10 @@ class magang extends CI_Controller {
 			}
 
 			if($value->CHECKOUT_DATE == null){
-				$checkout_date = "-";
+				$checkout_date = ".. : ..";
 				$status_end = "<span class='text-white bg-gradient-danger p-2'>TIDAK ABSEN</span>";
 			}else{
-				$checkout_date = '<span>'.date("H:m", strtotime($value->CHECKOUT_DATE)).'</span>';
+				$checkout_date = '<span>'.date("H:i", strtotime($value->CHECKOUT_DATE)).'</span>';
 				if($value->STATUS_END == 'E'){
 					$status_end = "<span class='text-white bg-gradient-success p-2'>EARLY</span>";
 				}else if ($value->STATUS_END == 'O'){
@@ -78,7 +72,7 @@ class magang extends CI_Controller {
             $no++;
 			$row = array();
             $row[] = $no;
-			$row[] = $created_date;
+			$row[] = date("Y-m-d", strtotime($value->CHECKIN_DATE));
             $row[] = $checkin_date.' | '.$status_arr;
 			$row[] = $checkout_date.' | '.$status_end;
 			$row[] = $status_end;
@@ -103,8 +97,14 @@ class magang extends CI_Controller {
 		$getTime = $this->db->query('SELECT * FROM ABS_TIME')->ROW();
 
 		date_default_timezone_set("Asia/Jakarta");
+		$notif = array();
+		$data = array();
+
+		$notif['status'] = '';
+		$notif['msg'] = '';
 
 		$cekExisiting = $this->db->query("SELECT * FROM ABSENSI_MAGANG WHERE NIPP = '".$this->session->userdata('session_meeting')->USERNAME."' AND TO_CHAR(CHECKIN_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD') OR TO_CHAR(CHECKOUT_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')")->row();
+		
 
 		//CEK JARAK
 		if($jarak != null && $long != null && $lat !=null){
@@ -114,7 +114,9 @@ class magang extends CI_Controller {
 					// CEK JIKA USER SUDAH ABSEN ATAU BELUM (KEDATANGAN)
 					if($cekExisiting->STATUS_ARR != null && $cekExisiting->CHECKIN_DATE != null){
 						//JIKA SUDAH (NOTIFIKASI SUDAH)
-						$this->session->set_flashdata('notif', $this->notify_danger('Anda Sudah Melakukan Absensi Kedatangan Hari Ini'));								
+						$notif['status'] = 'success';
+						$notif['msg'] = 'Anda Telah Melakukan Absensi Kedatangan Hari ini';
+						// $this->session->set_flashdata('notif', $this->notify_danger('Anda Sudah Melakukan Absensi Kedatangan Hari Ini'));								
 					}else{
 						//JIKA BELUM (INSERT)
 						$data = array(
@@ -130,7 +132,10 @@ class magang extends CI_Controller {
 							'STATUS_ARR' => $getTime->STATUS_ARR,
 						);
 						$this->Magang_Model->insert($data);
-						$this->session->set_flashdata('notif', $this->notify_success('Anda Berhasil Melakukan Absensi Kedatangan'));		
+						
+						$notif['status'] = 'success';
+						$notif['msg'] = 'Anda Berhasil Melakukan Absensi Kedatangan';
+						// $this->session->set_flashdata('notif', $this->notify_success('Anda Berhasil Melakukan Absensi Kedatangan'));		
 					}
 				//CEK TYPE ABSEN JIKA ABS_TYPE END				
 				}else{
@@ -150,12 +155,17 @@ class magang extends CI_Controller {
 							'STATUS_END' => $getTime->STATUS_END
 						);
 						$this->Magang_Model->insert($data);
-						$this->session->set_flashdata('notif', $this->notify_success('Anda Berhasil Absen Pulang'));		
+
+						$notif['status'] = 'success';
+						$notif['msg'] = 'Anda Berhasil Pulang';
+						// $this->session->set_flashdata('notif', $this->notify_success('Anda Berhasil Absen Pulang'));		
 					//JIKA USER SUDAH ADA					
 					}else{
 						// JIKA USER SUDAH ADA DAN STATUS O , MAKA NOTIFIKASI SUDAH ABSEN
 						if($cekExisiting->STATUS_END == 'O'){
-							$this->session->set_flashdata('notif', $this->notify_success('Anda Sudah Melakukan Absen Pulang Hari Ini'));	
+							$notif['status'] = 'success';
+							$notif['msg'] = 'Anda Sudah Melakukan Absen Pulang Hari Ini';
+							// $this->session->set_flashdata('notif', $this->notify_success('Anda Sudah Melakukan Absen Pulang Hari Ini'));	
 						//JIKA USER SUDAH ADA DAN STATUS MASIH E							
 						}else{
 							$data = array(
@@ -166,17 +176,31 @@ class magang extends CI_Controller {
 							);
 
 							$this->Magang_Model->update($data,$this->session->userdata('session_meeting')->USERNAME);
-							$this->session->set_flashdata('notif', $this->notify_warning('Anda Berhasil Absen Pulang'));
+
+							$notif['status'] = 'success';
+							$notif['msg'] = 'Anda Berhasil Absen Pulang';
+							// $this->session->set_flashdata('notif', $this->notify_warning('Anda Berhasil Absen Pulang'));
 						}								
 					}
 				}
 			}else{
-				$this->session->set_flashdata('notif', $this->notify_danger('Anda Belum Masuk Kawasan PT Terminal Teluk Lamong'));								
+				$notif['status'] = 'danger';
+				$notif['msg'] = 'Anda Belum Masuk Kawasan PT Terminal Teluk Lamong';
+				// $this->session->set_flashdata('notif', $this->notify_danger('Anda Belum Masuk Kawasan PT Terminal Teluk Lamong'));								
 			}
 		}else{
-			$this->session->set_flashdata('notif', $this->notify_danger('Lokasi Anda Tidak Terdeteksi'));								
+			$notif['status'] = 'danger';
+			$notif['msg'] = 'Lokasi Anda Tidak Terdeteksi';
+			// $this->session->set_flashdata('notif', $this->notify_danger('Lokasi Anda Tidak Terdeteksi'));								
 		}
-		redirect('magang');	
+		
+			if ($this->input->is_ajax_request())
+			{
+				echo json_encode($notif);
+				exit;
+			}
+		
+		redirect('magang');
     }
 
 	public function get_current_absen(){
@@ -233,6 +257,16 @@ class magang extends CI_Controller {
 				</div>
 			</div>';
 	}
+	public function returnMyProductJson() { 
+		return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(500)
+            ->set_output(json_encode(array(
+                    'text' => 'danger 500',
+                    'type' => 'danger'
+            )));
+			redirect('magang');
+	  } 
 
 }
 

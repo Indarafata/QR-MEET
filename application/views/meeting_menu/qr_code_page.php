@@ -46,7 +46,7 @@
   </style>
 </head>
 
-<body onload="window.print();window.onafterprint = window.close;">
+<body onload="window.print();">
     <div class="header bg-primary pb-6">
       <div class="container-fluid">
         <div class="header-body">
@@ -71,7 +71,6 @@
                         <h1 style="font-size:30px;font-weight:bolder"><?php echo $data->EVENT ?></h1>
                         <br>
                         <h4>TANGGAL : <?php echo date("Y-M-d" , strtotime($data->EVENT_DATE))?></h4>
-                        <h4>JAM : <?php echo date("H:i", strtotime($data->START_DATE)) ?> - <?php echo date("H:i" , strtotime($data->END_DATE))?></h4>
                         <h4>LOKASI : <?php echo $data->LOCATION ?></h4>
                     </div>
                 </div>
