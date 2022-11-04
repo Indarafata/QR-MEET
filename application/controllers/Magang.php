@@ -37,8 +37,6 @@ class magang extends CI_Controller {
 		$status_arr = '';
 		$status_end = '';
 
-		$created_date = '';
-
         foreach ($list as $value) {
 			if($value->CHECKIN_DATE == null){
 				$checkin_date = ".. : ..";
@@ -72,7 +70,7 @@ class magang extends CI_Controller {
             $no++;
 			$row = array();
             $row[] = $no;
-			$row[] = date("Y-m-d", strtotime($value->CHECKIN_DATE));
+			$row[] = date("Y-m-d", strtotime($value->CREATED_DATE));
             $row[] = $checkin_date.' | '.$status_arr;
 			$row[] = $checkout_date.' | '.$status_end;
 			$row[] = $status_end;

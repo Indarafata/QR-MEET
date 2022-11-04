@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title>QRMeet &#8226 Terminal Teluk Lamong</title>
+  <title><?php echo $data[0]->EVENT?></title>
   <!-- Favicon -->
   <link rel="icon" href="<?php echo base_url();?>/assets/img/brand/favicon.png" type="image/png">
   <!-- Fonts -->
@@ -46,7 +46,7 @@
   </style>
 </head>
 
-<body onload="window.print();window.onafterprint = window.close;">
+<body onload="window.print();window.focus();window.onafterprint = window.close;">
     <div class="header bg-primary pb-6">
       <div class="container-fluid">
         <div class="header-body">
@@ -71,7 +71,6 @@
                     <h4>ID MEETING : <?php echo $data2->ID_MEETING?></h4>
                     <h4>NAMA : <?php echo $data2->EVENT?></h4>
                     <h4>TANGGAL : <?php echo date("Y-M-d", strtotime($data2->EVENT_DATE))?></h4>
-                    <h4>JAM : <?php echo date("H:i", strtotime($data2->START_DATE))?> - <?php echo date("H:i", strtotime($data2->END_DATE))?></h4>
                     <h4>LOKASI : <?php echo $data2->LOCATION?></h4>
                     </div>
                 </div>
@@ -79,16 +78,16 @@
         <!-- Light table -->
             <div >
               <table style="table-layout: fixed; width: 100%;" border="1" >
-                <thead>
+                <tdead>
                   <tr>
-                    <th scope="col">ID USER</th>
-                    <th scope="col">ID MEETING</th>
-                    <th scope="col">USERNAME</th>
-                    <th scope="col">EMAIL</th>
-                    <th scope="col">NAMA DEPARTEMENT</th>
-                    <th scope="col">COMPANY</th>
-                    <th scope="col">JABATAN</th>
-                    <th scope="col">CHECKIN DATE</th>
+                    <td scope="col"><b style="font-size: 15px;">ID USER</b></td>
+                    <td scope="col"><b style="font-size: 15px;">ID MEETING</b></td>
+                    <td scope="col"><b style="font-size: 15px;">USERNAME</b></td>
+                    <td scope="col"><b style="font-size: 15px;">EMAIL</b></td>
+                    <td scope="col"><b style="font-size: 15px;">JABATAN</b></td>
+                    <td scope="col"><b style="font-size: 15px;">COMPANY</b></td>
+                    <td scope="col"><b style="font-size: 15px;">NAMA DEPARTEMENT</b></td>
+                    <td scope="col"><b style="font-size: 15px;">CHECKIN DATE</b></td>
                   </tr>
                 </thead>
                 <tbody>
@@ -101,9 +100,9 @@
                       <td scope="col"><?php echo $data->ID_MEETING ?></td> 
                       <td scope="col"><?php echo $data->NAME ?></td>                                   
                       <td scope="col"><?php echo $data->EMAIL?></td>   
-                      <td scope="col"><?php echo $data->ID_DEPT?></td>                                     
+                      <td scope="col"><?php echo $data->NAJAB?></td>                                     
                       <td scope="col"><?php echo $data->COMPANY?></td>
-                      <td scope="col"><?php echo $data->NAMA_SEK?></td>
+                      <td scope="col"><?php echo $data->DEPT_NAME?></td>
                       <td scope="col"><?php echo $data->CHECKIN_DATE?></td>
                     </tr>
                   <?php

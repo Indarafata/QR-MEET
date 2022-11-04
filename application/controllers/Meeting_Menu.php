@@ -68,16 +68,19 @@ class meeting_menu extends CI_Controller {
         a.status,
         b.id_dept,
         d.nama_sub,d.nama_sek,
-        b.company
+        b.company,
+        b.najab,
+        b.dept_name,
+        c.event
    FROM
          meeting_detail a,  VW_USER b,
          (
              SELECT U.EMAIL, MAX(P.NAMA_SUB) NAMA_SUB, MAX(P.NAMA_SEK) NAMA_SEK FROM OUTH.USERLOGIN U, OUTH.VPERSOEIS P
              WHERE U.NIPP = P.NRK AND U.EMAIL IS NOT NULL GROUP BY U.EMAIL
-         ) d
+         ) d,meeting c
      WHERE
          upper(A.EMAIL) = upper(b.email)
-         AND UPPER(a.EMAIL) = UPPER(d.EMAIL(+)) AND a.id_meeting = '$id' order by id_user asc")->result();
+         AND UPPER(a.EMAIL) = UPPER(d.EMAIL(+)) AND a.id_meeting = '$id' AND c.id_meeting = '$id' order by id_user asc")->result();
 
          $data['data2'] = $this->db->query("SELECT * FROM MEETING.MEETING WHERE ID_MEETING = '$id'")->row();
         
