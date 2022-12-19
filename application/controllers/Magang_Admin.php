@@ -103,57 +103,12 @@ class magang_admin extends CI_Controller {
         $no = $_POST['start'];
         $this->db->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI'");
 
-		$checkin_date=0;
-		$checkout_date=0;
-		$status_arr = '';
-		$status_end = '';
-
-		$created_date = '';
-
         foreach ($list as $value) {
-			if($value->CREATED_DATE != null){
-				$created_date = '<span>'.date("Y-m-d", strtotime($value->CREATED_DATE)).'</span>';
-			}else{
-				$created_date = '-';
-			}
-
-			if($value->CHECKIN_DATE == null){
-				$checkin_date = ".. : ..";
-				$status_arr = "<span class='text-white bg-gradient-danger p-2'>TIDAK ABSEN</span>";
-			}else{
-				$checkin_date = '<span>'.date("H:i", strtotime($value->CHECKIN_DATE)).'</span>';
-				if($value->STATUS_ARR == 'E'){
-					$status_arr = "<span class='text-white bg-gradient-success p-2'>EARLY</span>";
-				}else if ($value->STATUS_ARR == 'O'){
-					$status_arr = "<span class='text-white bg-gradient-success p-2'>ONTIME</span>";
-				}else if($value->STATUS_ARR == "L"){
-					$status_arr = "<span class='text-white bg-gradient-warning p-2'>LATE</span>";
-				}else{
-					$status_arr = "UNDEFINIED";
-				}
-			}
-
-			if($value->CHECKOUT_DATE == null){
-				$checkout_date = ".. : ..";
-				$status_end = "<span class='text-white bg-gradient-danger p-2'>TIDAK ABSEN</span>";
-			}else{
-				$checkout_date = '<span>'.date("H:i", strtotime($value->CHECKOUT_DATE)).'</span>';
-				if($value->STATUS_END == 'E'){
-					$status_end = "<span class='text-white bg-gradient-success p-2'>EARLY</span>";
-				}else if ($value->STATUS_END == 'O'){
-					$status_end = "<span class='text-white bg-gradient-success p-2'>ONTIME</span>";
-				}else{
-					$status_end = "UNDEFINIED";
-				}
-			}
             $no++;
             $row = array();
             $row[] = $no;
-			$row[] = $created_date;
             $row[] = $value->NAMA;
-            $row[] = $checkin_date.' | '.$status_arr;
-			$row[] = $checkout_date.' | '.$status_end;
-			$row[] = $status_end;
+            $row[] = '<button class="btn btn-primary" onclick="listDetail('.$value->NIPP.')">Detail</button>';
             $data[] = $row;
         }
  
@@ -167,6 +122,52 @@ class magang_admin extends CI_Controller {
         echo json_encode($output);
 	}
 
+    function datatable_log_absensi_arr_menu($nipp) 
+	{
+		$list = $this->Magang_Model->get_datatables_log_absensi_arr($nipp);
+        $data = array();
+        $no = $_POST['start'];
+        $this->db->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI'");
+		$type='-';
+		$status_arr = '';
+		$status_end = '';
+
+        foreach ($list as $value) {
+            $no++;
+	
+			$row = array();
+            $row[] = $no;
+				if($value->EXCEPTION_DATE == null && $value->STATUS_ARR == null && $value->STATUS_END == null){
+					$row[] =  '<span class="text-danger">'.date("d-M", strtotime($value->DAY)).' | '.$value->DAY_NAME.'</span>';
+					$row[] =  '<span class="text-danger">'.$value->STATUS_ARR.' - '.$value->CHECKIN_TIME.'</span>';
+					$row[] =  '<span class="text-danger">'.$value->STATUS_END.' - '.$value->CHECKOUT_TIME.'</span>';
+					$row[] =  '<span class="text-danger">'.$value->TYPE.' - '. $value->REMARK.'</span>';
+				}else{
+					if($value->EXCEPTION_DATE !=null){
+						$row[] = '<span class="bg-danger p-2 text-white">'.date("d-M", strtotime($value->DAY)).' | '.$value->DAY_NAME.'</span>';
+					}else{
+						$row[] = '<span class="bg-success p-2 text-white">'.date("d-M", strtotime($value->DAY)).' | '.$value->DAY_NAME.'</span>';
+					}
+					$row[] = '<span class="">'.$value->STATUS_ARR.' - '.$value->CHECKIN_TIME.'</span>';
+					$row[] = '<span class="">'.$value->STATUS_END.' - '.$value->CHECKOUT_TIME.'</span>';
+					$row[] = '<span class="">'.$value->TYPE.' - '. $value->REMARK.'</span>';
+				}
+            $data[] = $row;
+        }
+ 
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->Magang_Model->count_all_log_absensi_arr($nipp),
+            "recordsFiltered" => $this->Magang_Model->count_filtered_log_absensi_arr($nipp),
+            "data" => $data,
+        );
+
+        echo json_encode($output);
+	}
+
+    function get_user($id){
+        echo json_encode($this->db->query("SELECT * FROM VW_USER WHERE USER_ID = '$id'")->ROW());
+    }
 
     function get_jarak(){
         echo json_encode($this->db->query("SELECT PARAM1 FROM GEN_REF WHERE CODE_REF = 'ABS_JARAK'")->ROW());

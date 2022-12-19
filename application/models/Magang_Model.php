@@ -12,6 +12,9 @@ class Magang_Model extends CI_Model {
         date_default_timezone_set("Asia/Jakarta");
 
     }
+    function save_exception($data){
+        return $this->db->insert('MEETING.EXCEPTION_MAGANG', $data);
+    }
     function update($data,$id){     
         $this->db->where("NIPP",$id);
         $this->db->where("TO_CHAR(CHECKIN_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD') OR TO_CHAR(CHECKOUT_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')");
@@ -40,10 +43,11 @@ class Magang_Model extends CI_Model {
     {
         $this->db->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI'");
         $this->db->where('NIPP',$nipp);
-        $this->db->select('*')->from($this->table);
-        $column_orderTopUp = array(null , 'CREATED_DATE','CHECKIN_DATE' , 'CHECKOUT_DATE');
-        $column_searchTopUp = array(null , 'CREATED_DATE','CHECKIN_DATE' , 'CHECKOUT_DATE');
-        $order = array('CREATED_DATE' => 'desc'); 
+        $this->db->select('*')->from('V_ABSENSI');
+        $this->db->where_not_in('DAY_NAME',array('Sabtu','Minggu'));
+        $column_orderTopUp = array(null);
+        $column_searchTopUp = array(null);
+        $order = array('DAY' => 'asc'); 
  
         $this->datatable_order_search($order, $column_orderTopUp, $column_searchTopUp);
     }
@@ -67,17 +71,17 @@ class Magang_Model extends CI_Model {
     public function count_all_log_absensi_arr($nipp)
     {
         $this->db->where('NIPP',$nipp);
-        $this->db->select('*')->from($this->table);
+        $this->db->select('*')->from('V_ABSENSI');
+        $this->db->where_not_in('DAY_NAME',array('Sabtu','Minggu'));
         return $this->db->count_all_results();
     }
 
     private function _get_datatables_query_log_absensi_all()
     {
-        $this->db->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI'");
-        $this->db->select('*')->from($this->table);
-        $column_orderTopUp = array(null ,'CREATED_DATE','NAMA','CHECKIN_DATE','CHECKOUT_DATE');
-        $column_searchTopUp = array(null ,'CREATED_DATE','NAMA','CHECKIN_DATE', 'CHECKOUT_DATE');
-        $order = array('CREATED_DATE' => 'desc'); 
+        $this->db->select('*')->from('V_GRP_ABSENSI');
+        $column_orderTopUp = array(null ,'NAMA','NIPP');
+        $column_searchTopUp = array(null ,'NAMA','NIPP');
+        $order = array('NIPP' => 'asc'); 
  
         $this->datatable_order_search($order, $column_orderTopUp, $column_searchTopUp);
     }
@@ -100,7 +104,7 @@ class Magang_Model extends CI_Model {
  
     public function count_all_log_absensi_all()
     {
-        $this->db->select('*')->from($this->table);
+        $this->db->select('*')->from('V_GRP_ABSENSI');
         return $this->db->count_all_results();
     }
 

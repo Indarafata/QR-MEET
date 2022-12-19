@@ -73,9 +73,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = '10.110.0.40:1521/dbttl';
+// $db['default']['hostname'] = '10.110.0.40:1521/dbttl';
+// $db['default']['username'] = 'meeting';
+// $db['default']['password'] = 'meeting1';
+// $db['default']['database'] = '';
+// $db['default']['dbdriver'] = 'oci8';
+// $db['default']['dbprefix'] = '';
+// $db['default']['pconnect'] = FALSE;
+// $db['default']['db_debug'] = TRUE;
+// $db['default']['cache_on'] = FALSE;
+// $db['default']['cachedir'] = '';
+// $db['default']['char_set'] = 'utf8';
+// $db['default']['dbcollat'] = 'utf8_general_ci';
+// $db['default']['swap_pre'] = '';
+// $db['default']['autoinit'] = TRUE;
+// $db['default']['stricton'] = FALSE;
+
+
+$db['default']['hostname'] = '10.118.42.109:1521/ORCL';
 $db['default']['username'] = 'meeting';
-$db['default']['password'] = 'meeting1';
+$db['default']['password'] = 'Lumajang191200';
 $db['default']['database'] = '';
 $db['default']['dbdriver'] = 'oci8';
 $db['default']['dbprefix'] = '';
@@ -88,4 +105,3 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
-

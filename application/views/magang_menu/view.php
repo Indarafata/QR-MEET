@@ -22,6 +22,7 @@
                     <th>TANGGAL</th>
                     <th>CHECKIN</th>
                     <th>CHECKOUT</th>
+                    <th>TYPE & REMARK</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -35,40 +36,11 @@
     </div>
 
     <script type="text/javascript">
-    
     var table;
     var site_url = '<?=site_url()?>';
 
 
     $(document).ready(function() {
-      var columnFilter = [1];
-
-        $('#datatable-buttons thead tr').clone(true).appendTo( '#datatable-buttons thead' );
-        $('#datatable-buttons thead tr:eq(1) th').each( function (i) {
-            var isFilterable = false;
-            jQuery.each(columnFilter, function(j, val) {
-                if(i == val) {
-                    isFilterable = true;
-                    return false;
-                }
-            });
-
-            if(isFilterable) {
-                var title = $(this).text();
-                $(this).html( '<input type="text" class="form-control" placeholder="Search '+title+'" />' );
-
-                $( 'input', this ).on( 'keyup change', function () {
-                    if ( $('#datatable-buttons').DataTable().column(i).search() !== this.value ) {
-                    $('#datatable-buttons').DataTable()
-                            .column(i)
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
-            } else {
-            $(this).text("");
-        }
-        } );
         refreshDatatable();
     });
 
@@ -76,15 +48,10 @@
 
     function refreshDatatable() {
         $('#datatable-buttons').DataTable({
-           "filter": true,
             "destroy": true,
-            "ordering": true,
             "processing": true, 
             "serverSide": true, 
-            "searching": true, 
             "responsive":true,
-            "autoWidth": false,
-            "orderCellsTop": true,
             "order": [], //Initial no order.
 
             // Load data for the table's content from an Ajax source
@@ -97,6 +64,18 @@
             "columnDefs": [
                 {
                     "targets": [0], //first column / numbering column
+                    "orderable": false, //set not orderable
+                },
+                {
+                    "targets": [1], //first column / numbering column
+                    "orderable": false, //set not orderable
+                },
+                {
+                    "targets": [2], //first column / numbering column
+                    "orderable": false, //set not orderable
+                },
+                {
+                    "targets": [3], //first column / numbering column
                     "orderable": false, //set not orderable
                 },
             ],

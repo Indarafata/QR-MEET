@@ -9,6 +9,7 @@ class Meeting_Model extends CI_Model {
     {
         parent::__construct();
     }
+ 
     function update($data,$id){
         $this->db->where('ID_MEETING',$id);
         return $this->db->update('MEETING.MEETING', $data);

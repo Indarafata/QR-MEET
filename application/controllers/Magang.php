@@ -19,6 +19,10 @@ class magang extends CI_Controller {
 		$data['content']		= 'magang_menu/create';
 		$this->load->view('index', $data);
 	}
+	public function exception(){
+		$data['content']		= 'magang_menu/exception';
+		$this->load->view('index', $data);
+	}
 	public function log_absensi()
 	{
 		$data['content']		= 'magang_menu/view';
@@ -31,49 +35,30 @@ class magang extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         $this->db->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI'");
-
-		$checkin_date=0;
-		$checkout_date=0;
+		$type='-';
 		$status_arr = '';
 		$status_end = '';
 
         foreach ($list as $value) {
-			if($value->CHECKIN_DATE == null){
-				$checkin_date = ".. : ..";
-				$status_arr = "<span class='text-white bg-gradient-danger p-2'>TIDAK ABSEN</span>";
-			}else{
-				$checkin_date = '<span>'.date("H:i", strtotime($value->CHECKIN_DATE)).'</span>';
-				if($value->STATUS_ARR == 'E'){
-					$status_arr = "<span class='text-white bg-gradient-success p-2'>EARLY</span>";
-				}else if ($value->STATUS_ARR == 'O'){
-					$status_arr = "<span class='text-white bg-gradient-success p-2'>ONTIME</span>";
-				}else if($value->STATUS_ARR == "L"){
-					$status_arr = "<span class='text-white bg-gradient-warning p-2'>LATE</span>";
-				}else{
-					$status_arr = "UNDEFINIED";
-				}
-			}
-
-			if($value->CHECKOUT_DATE == null){
-				$checkout_date = ".. : ..";
-				$status_end = "<span class='text-white bg-gradient-danger p-2'>TIDAK ABSEN</span>";
-			}else{
-				$checkout_date = '<span>'.date("H:i", strtotime($value->CHECKOUT_DATE)).'</span>';
-				if($value->STATUS_END == 'E'){
-					$status_end = "<span class='text-white bg-gradient-success p-2'>EARLY</span>";
-				}else if ($value->STATUS_END == 'O'){
-					$status_end = "<span class='text-white bg-gradient-success p-2'>ONTIME</span>";
-				}else{
-					$status_end = "UNDEFINIED";
-				}
-			}
             $no++;
+	
 			$row = array();
             $row[] = $no;
-			$row[] = date("Y-m-d", strtotime($value->CREATED_DATE));
-            $row[] = $checkin_date.' | '.$status_arr;
-			$row[] = $checkout_date.' | '.$status_end;
-			$row[] = $status_end;
+				if($value->EXCEPTION_DATE == null && $value->STATUS_ARR == null && $value->STATUS_END == null){
+					$row[] =  '<span class="text-danger">'.date("d-M", strtotime($value->DAY)).' | '.$value->DAY_NAME.'</span>';
+					$row[] =  '<span class="text-danger">'.$value->STATUS_ARR.' - '.$value->CHECKIN_TIME.'</span>';
+					$row[] =  '<span class="text-danger">'.$value->STATUS_END.' - '.$value->CHECKOUT_TIME.'</span>';
+					$row[] =  '<span class="text-danger">'.$value->TYPE.' - '. $value->REMARK.'</span>';
+				}else{
+					if($value->EXCEPTION_DATE !=null){
+						$row[] = '<span class="bg-danger p-2 text-white">'.date("d-M", strtotime($value->DAY)).' | '.$value->DAY_NAME.'</span>';
+					}else{
+						$row[] = '<span class="bg-success p-2 text-white">'.date("d-M", strtotime($value->DAY)).' | '.$value->DAY_NAME.'</span>';
+					}
+					$row[] = '<span class="">'.$value->STATUS_ARR.' - '.$value->CHECKIN_TIME.'</span>';
+					$row[] = '<span class="">'.$value->STATUS_END.' - '.$value->CHECKOUT_TIME.'</span>';
+					$row[] = '<span class="">'.$value->TYPE.' - '. $value->REMARK.'</span>';
+				}
             $data[] = $row;
         }
  
@@ -213,6 +198,18 @@ class magang extends CI_Controller {
 	public function get_abs_jarak(){
 		echo json_encode($this->db->query("SELECT * FROM GEN_REF WHERE CODE_REF = 'ABS_JARAK'")->row());
 	}
+
+	public function exception_absen(){
+		$data = array(
+			'EXCEPTION_DATE'=>$this->input->post('tanggal'),
+			'TYPE' => $this->input->post('type'),
+			'NIPP' => $this->session->userdata('session_meeting')->USERNAME,
+			'CREATED_BY' => $this->session->userdata('session_meeting')->USERNAME,
+			'REMARK' => $this->input->post('remark')
+		);
+		$this->Magang_Model->save_exception($data);
+		redirect('magang/exception');
+	}
 	
 
 
@@ -267,81 +264,3 @@ class magang extends CI_Controller {
 	  } 
 
 }
-
-
-
-
-
-			// if($cekExisiting){
-			// 	if($getTime->TIME_ARR_DIFF < 0 && $getTime->TIME_ARR_DIFF >= -$getIntervalLate){
-			// 		if($cekExisiting->CHECKIN_DATE != null){
-			// 			$this->session->set_flashdata('notif', $this->notify_warning('Anda Sudah Melakukan Absensi Kedatangan'));								
-			// 		}
-			// 	}else if($getTime->TIME_ARR_DIFF <= -$getIntervalLate && $getTime->TIME_END_DIFF > 0){
-			// 		// ABSEN PULANG EARLY 
-			// 		if($cekExisiting->STATUS_END == 'END_EARLY' || $cekExisiting->CHECKOUT_DATE == null){
-			// 			$data = array(
-			// 				'CHECKOUT_DATE' => $getTime->TIME_NOW,
-			// 				'UPDATE_BY' => $this->session->userdata('session_meeting')->USERNAME,
-			// 				'UPDATE_DATE' =>  $getTime->TIME_NOW,
-			// 				'STATUS_END' => 'END_EARLY'
-			// 			);
-			// 			$this->Magang_Model->update($data,$this->session->userdata('session_meeting')->USERNAME);
-			// 			$this->session->set_flashdata('notif', $this->notify_success('Anda Berhasil Melakukan Absensi Pulang'));		
-			// 		}							
-			// 	}else if($getTime->TIME_END_DIFF <= 0 && $getTime->TIME_END_DIFF > -$getIntervalEnd){
-			// 		// ABSEN SETELAH JAM PULANG - INTERVAL
-			// 		if($cekExisiting->STATUS_END == 'END_EARLY' || $cekExisiting->CHECKOUT_DATE == null){
-			// 			//MERUBAH STATUS KE ONTIME
-			// 			$data = array(
-			// 				'CHECKOUT_DATE' => $getTime->TIME_NOW,
-			// 				'UPDATE_BY' => $this->session->userdata('session_meeting')->USERNAME,
-			// 				'UPDATE_DATE' =>  $getTime->TIME_NOW,
-			// 				'STATUS_END' => 'PULANG'
-			// 			);
-			// 			$this->Magang_Model->update($data,$this->session->userdata('session_meeting')->USERNAME);
-			// 			$this->session->set_flashdata('notif', $this->notify_success('Anda Berhasil Melakukan Absensi Pulang'));		
-			// 		}			
-			// 		else{
-			// 			$this->session->set_flashdata('notif', $this->notify_warning('Anda Sudah Melakukan Absensi Pulang'));		
-			// 		}						
-			// 	}
-			// 	else{
-			// 		$this->session->set_flashdata('notif', $this->notify_danger('Anda Melebihi Batas Absen Pulang'));								
-			// 	}
-			// }else{
-			// 	$data = array(
-			// 		'NIPP' => $this->session->userdata('session_meeting')->USERNAME,
-			// 		'NAMA' => $this->session->userdata('session_meeting')->NAMA,	
-			// 		'NAJAB' => $this->session->userdata('session_meeting')->HAKAKSES_ACTIVE->NAMA,
-			// 		// 'NAMA_SUB' =>
-			// 		'LAT' => $lat,
-			// 		'LON' => $long,
-			// 		'JARAK' => $jarak,
-			// 		'CHECKIN_DATE' => $getTime->TIME_NOW,
-			// 		'CREATED_BY' => $this->session->userdata('session_meeting')->USERNAME,
-			// 	);
-
-			// 	if($getTime->TIME_ARR_DIFF > $getIntervalArr){
-			// 		$this->session->set_flashdata('notif', $this->notify_danger('Belum Memasuki Waktu Absensi Kedatangan'));								
-			// 	}else if($getTime->TIME_ARR_DIFF > (int)$getIntervalArr/2 && $getTime->TIME_ARR_DIFF < $getIntervalArr){
-			// 		$data['STATUS_ARR'] = 'EARLY';
-			// 		$this->Magang_Model->insert($data);
-			// 		$this->session->set_flashdata('notif', $this->notify_success('Anda Berhasil Melakukan Absensi Kedatangan , Kedatangan Anda EARLY'));		
-
-			// 	}else if($getTime->TIME_ARR_DIFF <= (int)$getIntervalArr/2 && $getTime->TIME_ARR_DIFF >= 0){
-			// 		$data['STATUS_ARR'] = 'ONTIME';
-			// 		$this->Magang_Model->insert($data);
-			// 		$this->session->set_flashdata('notif', $this->notify_success('Anda Berhasil Melakukan Absensi Kedatangan , Kedatangan Anda ON-TIME'));		
-
-			// 	}else if($getTime->TIME_ARR_DIFF < 0 && $getTime->TIME_ARR_DIFF >= -$getIntervalLate){
-			// 		$data['STATUS_ARR'] = 'TERLAMBAT';
-			// 		$this->Magang_Model->insert($data);
-			// 		$this->session->set_flashdata('notif', $this->notify_warning('Anda Berhasil Melakukan Absensi Kedatangan , Kedatangan Anda Telambat'));	
-	
-			// 	}else{
-			// 		$data['STATUS_ARR'] = 'TERLAMBAT';
-			// 		$this->Magang_Model->insert($data);
-			// 		$this->session->set_flashdata('notif', $this->notify_danger('Anda Melebihi Batas Absen Kedatangan (Jam '.$time_arr.')'));								
-			// 	}
-			// }
