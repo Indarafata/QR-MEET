@@ -12,6 +12,11 @@
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   <!-- Icons -->
+  <link rel="stylesheet" media="screen, print" href="<?= base_url();?>/assets/css/fa-duotone.css">
+  <link rel="stylesheet" media="screen, print" href="<?= base_url();?>/assets/css/fa-regular.css">
+  <link rel="stylesheet" media="screen, print" href="<?= base_url();?>/assets/css/fa-standart.css">
+  <link rel="stylesheet" media="screen, print" href="<?= base_url();?>/assets/css/fa-light.css">
+  <link rel="stylesheet" media="screen, print" href="<?= base_url();?>/assets/css/fa-brands.css">
   <link rel="stylesheet" href="<?php echo base_url();?>/assets/vendor/nucleo/css/nucleo.css" type="text/css">
   <link rel="stylesheet" href="<?php echo base_url();?>/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
    <!-- Page plugins -->
@@ -39,6 +44,8 @@
 
   <script src="<?php echo base_url();?>/assets/vendor/jquery/dist/jquery.min.js"></script>
   <script src="<?= base_url() ?>/assets/plugins/jquery-multi-select/js/jquery.multi-select.js" type="text/javascript"></script>
+  <script src="<?= base_url() ?>/assets/plugins/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+  <script src="<?= base_url() ?>/assets/plugins/jquery-validation/dist/additional-methods.min.js" type="text/javascript"></script>
 
   <!-- Optional JS -->
   <script src="<?php echo base_url();?>/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
