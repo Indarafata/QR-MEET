@@ -128,7 +128,6 @@ class CI_Session {
 			&& (
 				! is_string($_COOKIE[$this->_config['cookie_name']])
 				OR ! preg_match('#\A'.$this->_sid_regexp.'\z#', $_COOKIE[$this->_config['cookie_name']])
-				// OR !preg_match('/^[0-9a-f]{32}$/', $_COOKIE[$this->_config['cookie_name']])
 			)
 		)
 		{

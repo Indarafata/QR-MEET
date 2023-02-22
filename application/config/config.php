@@ -23,9 +23,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = "http";
+$config['base_url'] = "https";
 $config['base_url'] .= "://".$_SERVER['HTTP_HOST'];
 $config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+
+// $config['base_url'] = "https://".$_SERVER['HTTP_HOST'];
+// $config['base_url'] .= preg_replace('@/+$@','',dirname($_SERVER['SCRIPT_NAME'])).'/';
 
 /*
 |--------------------------------------------------------------------------
@@ -422,17 +425,17 @@ $config['sess_time_to_update']	= 300;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-// $config['cookie_prefix']	= '';
-// $config['cookie_domain']	= '';
-// $config['cookie_path']		= '/';
-// $config['cookie_secure']	= FALSE;
-// $config['cookie_httponly'] 	= FALSE;
-// $config['cookie_samesite'] 	= 'Lax';
-
-$config['cookie_prefix']	= "";
-$config['cookie_domain']	= "";
-$config['cookie_path']		= "/";
+$config['cookie_prefix']	= '';
+$config['cookie_domain']	= '';
+$config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
+$config['cookie_httponly'] 	= FALSE;
+$config['cookie_samesite'] 	= 'Lax';
+
+// $config['cookie_prefix']	= "";
+// $config['cookie_domain']	= "";
+// $config['cookie_path']		= "/";
+// $config['cookie_secure']	= FALSE;
 
 /*
 |--------------------------------------------------------------------------
