@@ -3,10 +3,10 @@
         <div class="header-body">
           <div class="row align-items-center py-4">
             <div class="col-lg-6 col-7">
-              <h6 class="h2 text-white d-inline-block mb-0">User</h6>
+              <h6 class="h2 text-white d-inline-block mb-0">List Mahasiswa</h6>
             </div>
             <div class="col-lg-6 col-5 text-right">
-              <a href="<?= site_url();?>/user_menu/create_page" class="btn btn-sm btn-success">Tambahkan User</a>
+              <a href="<?= site_url();?>/mahasiswa_menu/create_page" class="btn btn-sm btn-success">Tambahkan Mahasiswa</a>
             </div>
           </div>
         </div>
@@ -23,12 +23,11 @@
                 <thead class="thead-light">
                   <tr>
                     <th>No</th>
-                    <th>ID User</th>
-                    <th>username</th>
-                    <th>nomor telepon</th>
-                    <th>id department</th>
-                    <th>company</th>
-                    <th>email</th>
+                    <th>NIM Mahasiswa</th>
+                    <th>Nama Mahasiswa</th>
+                    <th>Prodi Mahasiswa</th>
+                    <th>Jurusan Mahasiswa</th>
+                    <th>Universitas Mahasiswa</th>
                     <th>created by</th>
                   </tr>
                 </thead>
@@ -85,7 +84,7 @@
 
     function refreshDatatable() {
         $('#datatable-buttons').DataTable({
-          //  "filter": true,
+           "filter": true,
             "destroy": true,
             "ordering": true,
             "processing": true, 
@@ -98,7 +97,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": site_url+"/user_menu/datatable_user_menu",
+                "url": site_url+"/mahasiswa_menu/datatable_mahasiswa_menu",
                 "type": "POST"
             },
 

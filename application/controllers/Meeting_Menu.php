@@ -110,7 +110,7 @@ class meeting_menu extends CI_Controller {
                             '<button class="dropdown-item" onClick="myFunction('.$no.')">Copy Link</button>'.
                             '<a class="dropdown-item" href="'.site_url('meeting_menu/qr_code_page/').$value->ID_MEETING.'">QR Code</a>'.
                             '<a class="dropdown-item" href="'.site_url('meeting_menu/add_peserta/').$value->ID_MEETING.'">Tambah Peserta</a>'.
-                            '<a class="dropdown-item" href="'.site_url('meeting_menu/list_absen_page/'.$value->ID_MEETING).'">List Absensi</a>'.
+                            '<a class="dropdown-item" href="'.site_url('meeting_menu/list_absen_page/'.$value->ID_MEETING).'">List Absensugbji</a>'.
                         '</div>'.
                         '</div>'.
                     '</td>';
