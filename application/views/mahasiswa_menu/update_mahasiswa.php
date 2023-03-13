@@ -1,11 +1,11 @@
-  <!-- Main content -->
+<!-- Main content -->
   <div class="main-content" id="panel">
     <div class="header bg-primary pb-6">
       <div class="container-fluid">
         <div class="header-body">
           <div class="row align-items-center py-4">
             <div class="col-lg-6 col-7">
-              <h6 class="h2 text-white d-inline-block mb-0">Form Tambah Mahasiswa</h6>
+              <h6 class="h2 text-white d-inline-block mb-0">Form Update Mahasiswa</h6>
             </div>
           </div>
         </div>
@@ -33,39 +33,40 @@
                             <div class="card">
                             <!-- Card header -->
                                 <div class="card-header">
-                                    <h3 class="mb-0">Buat Mahasiswa Baru</h3>
+                                    <h3 class="mb-0">Update Mahasiswa</h3>
                                 </div>
                                 <!-- Card body -->
                                     <div class="card-body">
-                                        <form action="<?= site_url('mahasiswa_menu/insert')?>" method="post">
+                                        <form action="<?= site_url('mahasiswa_menu/update')?>" method="post">
                                             <div class="form-group">
                                                 <label class="form-control-label" for="exampleFormControlInput1">Nama <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control"  placeholder="Nama" name="nama">
+                                                <input type="text" class="form-control"  placeholder="Nama" name="nama" value="<?php echo $mahasiswa[0]->MAHASISWA_NAMA; ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-control-label" for="exampleFormControlInput1">NIM <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control"  placeholder="NIM" name="nim">
+                                                <input type="text" class="form-control"  placeholder="NIM" name="nim" value="<?= $mahasiswa[0]->MAHASISWA_NIM; ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-control-label" for="exampleFormControlInput1">Tanggal Mulai Magang <span class="text-danger">*</span></label>
-                                                <input type="date" class="form-control" placeholder="Tanggal Mulai Magang" name="start_date">
+                                                <input type="date" class="form-control" placeholder="Tanggal Mulai Magang" name="start_date" value="<?= date('Y-m-d',strtotime($mahasiswa[0]->MAHASISWA_START_DATE)); ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-control-label" for="exampleFormControlInput1">Tanggal Selesai Magang <span class="text-danger">*</span></label>
-                                                <input type="date" class="form-control" placeholder="Tanggal Selesai Magang" name="end_date">
+                                                <input type="date" class="form-control" placeholder="Tanggal Selesai Magang" name="end_date" value="<?= date('Y-m-d',strtotime($mahasiswa[0]->MAHASISWA_END_DATE)); ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-control-label" for="exampleFormControlInput1">Prodi <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Prodi" name="prodi">
+                                                <input type="text" class="form-control" placeholder="Prodi" name="prodi" value="<?= $mahasiswa[0]->MAHASISWA_PRODI; ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-control-label" for="exampleFormControlInput1">Jurusan <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Jurusan" name="jurusan">
+                                                <input type="text" class="form-control" placeholder="Jurusan" name="jurusan" value="<?= $mahasiswa[0]->MAHASISWA_JURUSAN; ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-control-label" for="exampleFormControlInput1">Universitas <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Universitas" name="universitas">
+                                                <input type="text" class="form-control" placeholder="Universitas" name="universitas" value="<?= $mahasiswa[0]->MAHASISWA_UNIVERSITAS; ?>">
                                             </div>
+                                            <input type="hidden" class="form-control" name="id" value="<?= $mahasiswa[0]->MAHASISWA_ID; ?>">
                                             <button type="submit" class="btn btn-success btn-block">Simpan Mahasiswa</button>
                                         </form>
                                     </div>

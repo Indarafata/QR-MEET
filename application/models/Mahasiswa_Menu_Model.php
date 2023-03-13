@@ -14,11 +14,29 @@ class Mahasiswa_Menu_Model extends CI_Model {
         return $this->db->insert('MEETING.USER_MAHASISWA', $data);
     }
 
+    function delete($id){
+        $this->db->where('MAHASISWA_ID', $id); 
+        return $this->db->delete('MEETING.USER_MAHASISWA');
+    }
+
+    public function edit($id) {
+        // $id = $_GET['ID'];
+        return $this->db->query("
+       SELECT * FROM USER_MAHASISWA WHERE MAHASISWA_ID = $id
+       ")->result();
+    }
+
+    public function update($data, $id) {
+        $this->db->set($data);
+        $this->db->where('MAHASISWA_ID', $id);
+        $this->db->update('MEETING.USER_MAHASISWA');
+    }
+
     private function _get_datatables_query_user()
     {
         $this->db->select('*')->from($this->table);
         // $column_orderTopUp = array(null, 'USER_ID', 'USERNAME', 'TELP', 'ID_DEPT', 'COMPANY' , 'EMAIL' , 'CREATED_BY');
-        $column_orderTopUp = array(null, 'MAHASISWA_NIM', 'MAHASISWA_NAMA', 'MAHASISWA_PRODI', 'MAHASISWA_JURUSANn' , 'MAHASISWA_UNIVERSITAS' , 'CREATED_BY');
+        $column_orderTopUp = array(null, 'MAHASISWA_NIM', 'MAHASISWA_NAMA', 'MAHASISWA_PRODI', 'MAHASISWA_JURUSAN' , 'MAHASISWA_UNIVERSITAS' , 'CREATED_BY');
         // $column_searchTopUp = array(null , 'USER_ID', 'USERNAME', 'TELP', 'ID_DEPT', 'COMPANY' , 'EMAIL' , 'CREATED_BY');
         $column_searchTopUp = array(null, 'MAHASISWA_NIM', 'MAHASISWA_NAMA', 'MAHASISWA_PRODI', 'MAHASISWA_JURUSAN' , 'MAHASISWA_UNIVERSITAS' , 'CREATED_BY');
         $order = array('MAHASISWA_ID' => 'asc'); 
