@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once APPPATH . '/libraries/ResponseFormatter.php';
 /**
+ * 
  * Description of Fasilitas Pelabuhan
  *
  * @author Arif Kurniawan
@@ -51,6 +52,8 @@ class Master_Controller extends CI_Controller {
     public $custom_file_js = array();
     public $custom_script = "";
 	public $edit_after_set = "";
+
+    public $show        = true;
     
     function __construct() {
         parent::__construct();
@@ -75,7 +78,7 @@ class Master_Controller extends CI_Controller {
             "list_header"        => "LIST ". $this->title,
             "content"            => "master/index",
             "id"                 => $id,
-            // "col"                => array_column($this->col, 'label'),
+            "col"                => array_column($this->col, 'label'),
             "col"                => $this->col,
             "forms"              => $this->form,
             "fixed_columns"      => $this->fixed_columns,
@@ -90,6 +93,7 @@ class Master_Controller extends CI_Controller {
         );
 
         $this->load->view("index", $data);
+        
     }
 
     public function passToModel($view = false) {
@@ -170,7 +174,7 @@ class Master_Controller extends CI_Controller {
             } else {
                 $this->afterInsert($arr, $arr[$this->pk]);
             }
-            mResponse('Data berhasil ditambahkan');
+            mResponse('Data berhasil ditambahkan hahaha  uyjv');
         } else {
             mResponse(NULL, 'Terdapat error pada database');
         }
@@ -337,6 +341,7 @@ class Master_Controller extends CI_Controller {
             }
             $row_buttons[] = ($this->delete?'<button title="Delete" type="submit" onclick="hapus(\''.$this->encryption->encrypt($field->{$this->pk}).'\')" class="btn btn-sm btn-danger waves-effect waves-themed mr-2"><span class="fa fa-times"></span></button>':'');
             $row_buttons[] = ($this->edit?'<button title="Update" type="submit" onclick="edit(\''.$this->encryption->encrypt($field->{$this->pk}).'\')" class="btn btn-sm btn-warning waves-effect waves-themed mr-2"><span class="fa fa-edit"></span></button>':'');
+            $row_buttons[] = ($this->delete?'<button title="Show" onclick="showQr(\''.$field->{$this->qr}.'\')" class="btn btn-sm btn-success waves-effect waves-themed mr-2"><span class="fa fa-print"></span></button>':'');
 
             $row[] = '<td>'. implode("", $row_buttons) .'</td>';
             foreach ($this->col as $key => $value) {

@@ -225,6 +225,13 @@
         });
     }
 
+    function showQr(qr) {
+        Swal.fire({
+            title: "QR Code",
+            html: '<img src="https://qrmeet.test/index.php/validation/makeQrMonic?QR=' + qr + '" alt="gambar" width="100">',
+        });
+    }
+
     function detail(id) {
         <?=swal_loader()?>
         getDetail(id)

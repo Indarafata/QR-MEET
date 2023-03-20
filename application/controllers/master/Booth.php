@@ -11,6 +11,7 @@ class Booth extends Master_Controller
         $this->table        = 'BOOTH';
         $this->title        = 'BOOTH';
         $this->pk           = 'ID';
+        $this->qr           = 'QR_CODE';
         $this->order_by     = 'NAME';
         $this->order_sort   = 'ASC';
         $this->delete       = true;
@@ -20,6 +21,9 @@ class Booth extends Master_Controller
         $this->col[] = array('name' => 'DESCR', 'label' => "DESCRIPTION");
         $this->col[] = array('name' => 'CONTACT_NAME', 'label' => "CONTACT NAME");
         $this->col[] = array('name' => 'CONTACT_PHONE', 'label' => "CONTACT PHONE");
+        $this->col[] = array('name' => 'QR_CODE', 'label' => "QR Code");
+        // $this->col[] = array('label' => "QR Code");
+        // $this->col[] = array('value' => "<a href='https://www.youtube.com/watch?v=lj8TV9q59P4&ab_channel=%EB%AA%A8%EC%8A%A4%ED%8A%B8%EC%BD%98%ED%85%90%EC%B8%A0MOSTCONTENTS'>Edit</a>", 'label' => "<a href='https://www.youtube.com/watch?v=lj8TV9q59P4&ab_channel=%EB%AA%A8%EC%8A%A4%ED%8A%B8%EC%BD%98%ED%85%90%EC%B8%A0MOSTCONTENTS'>huhu</a>", 'action' => "<a href='https://www.youtube.com/watch?v=lj8TV9q59P4&ab_channel=%EB%AA%A8%EC%8A%A4%ED%8A%B8%EC%BD%98%ED%85%90%EC%B8%A0MOSTCONTENTS'>Edit</a>");
 
         $this->form[] = array('name' => 'NAME', 'label' => "Name", 'type' => 'text', 'required' => true, 'strToUpper' => true);
         $this->form[] = array('name' => 'DESCR', 'label' => 'Description', 'type' => 'text', 'required' => true, 'strToUpper' => true);

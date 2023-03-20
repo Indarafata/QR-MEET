@@ -13,7 +13,7 @@ class Login extends CI_Controller
 
     public function index()
     {
-        redirectIfLoggedIn();
+        // redirectIfLoggedIn();
 
         $this->session->unset_userdata('session_meeting_temp');
 
@@ -23,6 +23,7 @@ class Login extends CI_Controller
         if ($this->form_validation->run() == false) {
             $data = array('img' => $this->i_create_captcha());
             $this->load->view('login', $data);
+            // $this->load->view('login_mahasiswa', $data);
         } else {
             if ($this->session->userdata("captchaword") == $this->input->post('captcha')) {
                 $username = $this->input->post('username');
@@ -46,6 +47,7 @@ class Login extends CI_Controller
                     $this->session->set_userdata('session_meeting_temp', $response);
                     redirect('login/chooserole');
                 } else {
+                    // check database mahasiswaa
                     $this->session->set_flashdata('message', "<div class='alert alert-danger'>" . $response->responText . "</div>");
                     redirect('login');
                 }
