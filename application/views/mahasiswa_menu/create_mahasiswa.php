@@ -33,7 +33,7 @@
                             <div class="card">
                             <!-- Card header -->
                                 <div class="card-header">
-                                    <h3 class="mb-0">Buat Mahasiswa Baru</h3>
+                                    <h3 class="mb-0">Tambah Mahasiswa Baru</h3>
                                 </div>
                                 <!-- Card body -->
                                     <div class="card-body">

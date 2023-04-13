@@ -22,6 +22,7 @@ class Booth extends Master_Controller
         $this->col[] = array('name' => 'CONTACT_NAME', 'label' => "CONTACT NAME");
         $this->col[] = array('name' => 'CONTACT_PHONE', 'label' => "CONTACT PHONE");
         $this->col[] = array('name' => 'QR_CODE', 'label' => "QR Code");
+        $this->col[] = array('name' => 'URL_QR', 'label' => "URL QR");
         // $this->col[] = array('label' => "QR Code");
         // $this->col[] = array('value' => "<a href='https://www.youtube.com/watch?v=lj8TV9q59P4&ab_channel=%EB%AA%A8%EC%8A%A4%ED%8A%B8%EC%BD%98%ED%85%90%EC%B8%A0MOSTCONTENTS'>Edit</a>", 'label' => "<a href='https://www.youtube.com/watch?v=lj8TV9q59P4&ab_channel=%EB%AA%A8%EC%8A%A4%ED%8A%B8%EC%BD%98%ED%85%90%EC%B8%A0MOSTCONTENTS'>huhu</a>", 'action' => "<a href='https://www.youtube.com/watch?v=lj8TV9q59P4&ab_channel=%EB%AA%A8%EC%8A%A4%ED%8A%B8%EC%BD%98%ED%85%90%EC%B8%A0MOSTCONTENTS'>Edit</a>");
 
@@ -60,6 +61,8 @@ class Booth extends Master_Controller
         $data['KD_REGIONAL'] = getAuth('KD_TERMINAL');
         $data['KD_TERMINAL'] = getAuth('KD_TERMINAL');
         $data['QR_CODE']     = date('His', time()).substr(md5(rand()),0,20);
+        $qr = $data['QR_CODE'];
+        $data['URL_QR']     = "http://qrmeet.test/kantin/$qr";
     }
 
     function editValidation()

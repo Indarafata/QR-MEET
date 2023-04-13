@@ -111,7 +111,7 @@
                     <img alt="Image placeholder" src="<?=base_url();?>/assets/img/theme/vector_user.jpg">
                   </span>
                   <div class="media-body ml-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm  font-weight-bold"><?= $this->session->userdata('session_meeting')->HAKAKSES_ACTIVE->NAMA ?></span>
+                  <span class="mb-0 text-sm  font-weight-bold"><?= $this->session->userdata('session_meeting')->HAKAKSES_ACTIVE->NAMA ?? $_SESSION['logged_in_user_name']?></span>
                   </div>
                 </div>
               </a>

@@ -1,4 +1,6 @@
 <?php
+// session_start();
+// session_destroy();
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login extends CI_Controller
@@ -46,10 +48,26 @@ class Login extends CI_Controller
                 if ($response->responType == 'S') {
                     $this->session->set_userdata('session_meeting_temp', $response);
                     redirect('login/chooserole');
+                    // $this->load->view('mahasiswa_role/qr_scanner/qr_scanner');
+                    // $this->load->view('mahasiswa_menu/list_mahasiswa');
                 } else {
                     // check database mahasiswaa
-                    $this->session->set_flashdata('message', "<div class='alert alert-danger'>" . $response->responText . "</div>");
-                    redirect('login');
+                    $mahasiswa= $this->db->query("SELECT * FROM USER_MAHASISWA WHERE USERNAME = '$username' AND PASSWORD = '$password'")->result_array()[0];
+                    if($mahasiswa){
+                    $_SESSION['logged_in_user_name'] = $username;
+                    // hapus cache halaman sebelumnya
+                    header("Cache-Control: no-cache, no-store, must-revalidate");
+                    header("Pragma: no-cache");
+                    header("Expires: 0");
+                    echo '<script>window.history.replaceState(null, null, "'.base_url('kantin').'");</script>';
+                    redirect('/kantin');
+                    // $this->load->view('mahasiswa_role/qr_scanner/qr_scanner');
+                    // $this->load->view('mahasiswa_role/qr_scanner/confirmation');
+                    }
+                    else {
+                        $this->session->set_flashdata('message', "<div class='alert alert-danger'>" . $response->responText . "</div>");
+                        redirect('login');
+                    }
                 }
             } else {
                 $this->session->set_flashdata('message', "<div class='alert alert-danger'>Captcha yang anda masukkan salah</div>");
