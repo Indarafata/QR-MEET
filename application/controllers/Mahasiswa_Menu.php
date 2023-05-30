@@ -47,6 +47,9 @@ class mahasiswa_menu extends CI_Controller {
             $row[] = $value->MAHASISWA_PRODI;
             $row[] = $value->MAHASISWA_JURUSAN;
             $row[] = $value->MAHASISWA_UNIVERSITAS;
+            $row[] = $value->JENIS_KELAMIN;
+            $row[] = $value->TELEPON;
+            $row[] = $value->MAHASISWA_END_DATE > date("Y-m-d") ? "Aktif" : "Tidak Aktif";
             $row[] = $value->CREATED_BY;
             $row[] = "<a href='https://qrmeet.test/index.php/mahasiswa_menu/edit?ID=$value->MAHASISWA_ID' class='btn btn-sm btn-success'>Update</a>";
             $row[] = "<a href='https://qrmeet.test/index.php/mahasiswa_menu/delete?ID=$value->MAHASISWA_ID' class='btn btn-sm btn-success'>Delete</a>";
@@ -74,6 +77,9 @@ class mahasiswa_menu extends CI_Controller {
         $prodi = $this->input->post('prodi');
         $jurusan = $this->input->post('jurusan');
         $universitas = $this->input->post('universitas');
+        $telepeon = $this->input->post('telepeon');
+        $gender = $this->input->post('gender');
+        $status = $this->input->post('status');
 
 
         $query = $this->db->query("SELECT COUNT(MAHASISWA_ID) as total FROM MEETING.USER_MAHASISWA WHERE MAHASISWA_ID LIKE '%$nama%'")->result();
@@ -87,6 +93,9 @@ class mahasiswa_menu extends CI_Controller {
                 'MAHASISWA_PRODI' => $prodi,
                 'MAHASISWA_JURUSAN' => $jurusan,
                 'MAHASISWA_UNIVERSITAS' => $universitas,
+                'TELEPON' => $telepeon,
+                'JENIS_KELAMIN' => $gender,
+                'STATUS_PEMAGANG' => $status,
                 'CREATED_BY' => $this->session->userdata('session_meeting')->USERNAME,
                 'CREATED_DATE' => date("Y-m-d H:i:s"),
             );
@@ -102,8 +111,61 @@ class mahasiswa_menu extends CI_Controller {
         }
     }
 
+    public function insert_backup($data){
+        $this->db->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'");
+
+        // $id = $data[0]->MAHASISWA_ID;
+        $id = $data['mahasiswa'][0]->MAHASISWA_ID;
+        $nama = $data['mahasiswa'][0]->MAHASISWA_NAMA;
+        $nim = $data['mahasiswa'][0]->MAHASISWA_NIM;
+        $mulaiMagang = $data['mahasiswa'][0]->MAHASISWA_START_DATE;
+        $selesaiMagang = $data['mahasiswa'][0]->MAHASISWA_END_DATE;
+        $prodi = $data['mahasiswa'][0]->MAHASISWA_PRODI;
+        $jurusan = $data['mahasiswa'][0]->MAHASISWA_JURUSAN;
+        $universitas = $data['mahasiswa'][0]->MAHASISWA_UNIVERSITAS;
+        $telepeon = $data['mahasiswa'][0]->TELEPON;
+        $gender = $data['mahasiswa'][0]->JENIS_KELAMIN;
+        $status = $data['mahasiswa'][0]->STATUS_PEMAGANG;
+        $username = $data['mahasiswa'][0]->USERNAME;
+        $password = $data['mahasiswa'][0]->PASSWORD;
+        $createdBy = $data['mahasiswa'][0]->CREATED_BY;
+        $createdDate = $data['mahasiswa'][0]->CREATED_DATE;
+        $updatedBy = $data['mahasiswa'][0]->UPDATED_BY;
+        $updatedDate = $data['mahasiswa'][0]->UPDATED_DATE;
+
+
+        $query = $this->db->query("SELECT COUNT(MAHASISWA_ID) as total FROM MEETING.USER_MAHASISWA_BACKUP WHERE MAHASISWA_ID LIKE '%$nama%'")->result();
+        if($query[0]->TOTAL == 0){
+            $data = array(
+                'MAHASISWA_ID' => $id,
+                'MAHASISWA_NIM' => $nim,
+                'MAHASISWA_NAMA' => $nama,
+                'MAHASISWA_START_DATE' => $mulaiMagang,
+                'MAHASISWA_END_DATE' => $selesaiMagang,
+                'MAHASISWA_PRODI' => $prodi,
+                'MAHASISWA_JURUSAN' => $jurusan,
+                'MAHASISWA_UNIVERSITAS' => $universitas,
+                'TELEPON' => $telepeon,
+                'JENIS_KELAMIN' => $gender,
+                'STATUS_PEMAGANG' => $status,
+                'USERNAME' => $username,
+                'PASSWORD' => $password,
+                'CREATED_BY' => $createdBy,
+                'CREATED_DATE' => $createdDate,
+                'CREATED_BY' => $updatedBy,
+                'CREATED_DATE' => $updatedDate,
+                'DELETED_BY' => $this->session->userdata('session_meeting')->USERNAME,
+                'DELETED_DATE' => date("Y-m-d H:i:s"),
+            );
+            $this->Mahasiswa_Menu_Model->insert_backup($data);
+        }
+    }
+
     public function delete(){
         $id = $_GET['ID'];
+        $data['mahasiswa'] = $this->Mahasiswa_Menu_Model->getById($id);
+        // $this->insert_backup($data);
+        $this->insert_backup(['mahasiswa' => $data['mahasiswa']]);
         $this->Mahasiswa_Menu_Model->delete($id);
 
         redirect(base_url('index.php/mahasiswa_menu'));
@@ -111,21 +173,12 @@ class mahasiswa_menu extends CI_Controller {
 
     public function edit() {
         $id = $_GET['ID'];
-        $data['mahasiswa'] = $this->Mahasiswa_Menu_Model->edit($id);
-
-        // echo $data['mahasiswa'];
+        $data['mahasiswa'] = $this->Mahasiswa_Menu_Model->getById($id);
 
         $data['active_menu']    = 'mahasiswa_menu';
 		$data['content']		= 'mahasiswa_menu/update_mahasiswa';
 		$this->load->view('index', $data);
     }
-
-    // public function update(){
-    //     $id = $_GET['ID'];
-    //     $this->Mahasiswa_Menu_Model->update($id);
-
-    //     redirect(base_url('index.php/mahasiswa_menu'));
-    // }
 
     public function update(){
         $this->db->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'");

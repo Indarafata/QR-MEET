@@ -24,6 +24,7 @@
   <nav>
     <ul>
       <li><a href="#">MANGAN</a></li>
+      <li><a href="<?= site_url('login/logout') ?>/index.php/login/logout">Logout</a></li>
     </ul>
   </nav>
 

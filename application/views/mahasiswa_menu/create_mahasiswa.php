@@ -66,6 +66,15 @@
                                                 <label class="form-control-label" for="exampleFormControlInput1">Universitas <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" placeholder="Universitas" name="universitas">
                                             </div>
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="exampleFormControlInput1">Telepon <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="Telepon" name="telepon">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="exampleFormControlInput1">Jenis Kelamin <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="Jenis Kelamin" name="gender">
+                                            </div>
+                                            <input type="hidden" class="form-control" name="status" value="aktif">
                                             <button type="submit" class="btn btn-success btn-block">Simpan Mahasiswa</button>
                                         </form>
                                     </div>

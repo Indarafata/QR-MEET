@@ -14,12 +14,16 @@ class Mahasiswa_Menu_Model extends CI_Model {
         return $this->db->insert('MEETING.USER_MAHASISWA', $data);
     }
 
+    function insert_backup($data){
+        return $this->db->insert('MEETING.USER_MAHASISWA_BACKUP', $data);
+    }
+
     function delete($id){
         $this->db->where('MAHASISWA_ID', $id); 
         return $this->db->delete('MEETING.USER_MAHASISWA');
     }
 
-    public function edit($id) {
+    public function getById($id) {
         // $id = $_GET['ID'];
         return $this->db->query("
        SELECT * FROM USER_MAHASISWA WHERE MAHASISWA_ID = $id

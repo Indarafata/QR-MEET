@@ -62,7 +62,7 @@ class Booth extends Master_Controller
         $data['KD_TERMINAL'] = getAuth('KD_TERMINAL');
         $data['QR_CODE']     = date('His', time()).substr(md5(rand()),0,20);
         $qr = $data['QR_CODE'];
-        $data['URL_QR']     = "http://qrmeet.test/kantin/$qr";
+        $data['URL_QR']     = "https://qrmeet.test/index.php/kantin/scan/$qr";
     }
 
     function editValidation()

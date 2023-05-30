@@ -39,7 +39,7 @@ class Booth_Transaction_Model extends CI_Model {
         $column_orderTopUp = array(null, 'URL_BOOTH', 'NIP_MAHASISWA', 'TANGGAL_TRANSAKSI');
         // $column_searchTopUp = array(null , 'USER_ID', 'USERNAME', 'TELP', 'ID_DEPT', 'COMPANY' , 'EMAIL' , 'CREATED_BY');
         $column_searchTopUp = array(null, 'URL_BOOTH', 'NIP_MAHASISWA', 'TANGGAL_TRANSAKSI');
-        $order = array('TRANSACTION' => 'asc'); 
+        $order = array('TRANSACTION_ID' => 'asc'); 
  
         $this->datatable_order_search($order, $column_orderTopUp, $column_searchTopUp);
     }
@@ -48,6 +48,12 @@ class Booth_Transaction_Model extends CI_Model {
     //   $query = $this->db->get('MEETING.BOOTH_TRANSACTION');
         $nip = $_SESSION['logged_in_user_name'];
         return $this->db->query("SELECT * FROM BOOTH_TRANSACTION WHERE NIP_MAHASISWA = $nip")->result();
+   }
+
+   public function get_all_data() {
+    //   $query = $this->db->get('MEETING.BOOTH_TRANSACTION');
+        $nip = $_SESSION['logged_in_user_name'];
+        return $this->db->query("SELECT * FROM BOOTH_TRANSACTION")->result();
    }
  
     function get_datatables_booth()

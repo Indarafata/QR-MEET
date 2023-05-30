@@ -64,8 +64,7 @@ class Validation extends CI_Controller {
 
         header("Content-Type: image/jpeg");
         // $nilai =   base_url() . 'validasi/qr_ba?id=' . $ba_id . '&usr=' . $usr_id . '&key=' . $checksum;
-        // $nilai ='hahahh';
-        $nilai = "http://qrmeet.test/kantin/$qr";
+        $nilai = "https://qrmeet.test/index.php/kantin/scan/$qr";
         $params['data'] = $nilai;
         return $this->ciqrcode->generate($params);
     }

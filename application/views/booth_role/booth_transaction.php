@@ -52,7 +52,6 @@
             <th scope="col">Last</th>
             <th scope="col">Handle</th> -->
             <th scope="col">NIP Mahasiswa</th>
-            <th scope="col">URL Booth</th>
             <th scope="col">Tanggal Transaksi</th>
           </tr>
         </thead>
@@ -60,7 +59,6 @@
           <?php foreach ($data as $row) : ?>
             <tr>
               <td><?= $row->NIP_MAHASISWA ?></td>
-              <td><?= $row->URL_BOOTH ?></td>
               <td><?= $row->CREATED_DATE ?></td>
             </tr>
             <?php endforeach; ?>
@@ -68,61 +66,4 @@
       </table>
     </div>
   </body>
-  <script>
-      window.onload = function() {
-        // Mengambil query string dari URL
-        const queryString = window.location.search;
-
-        // Parsing nilai parameter dari query string
-        const urlParams = new URLSearchParams(queryString);
-        const value = urlParams.get('value');
-
-        // Menampilkan nilai parameter
-        console.log(value);
-
-        if(value == "true"){
-
-          Swal.fire({
-            title: 'Transaksi berhasil',
-            icon: 'success',
-            // showCancelButton: true,
-            confirmButtonText: 'Ok',
-            // cancelButtonText: 'Ga dulu'
-        }).then((resultSwal) => {
-            if (resultSwal.isConfirmed) {
-            // logika untuk mengirim data ke server
-            
-            }
-        });
-    }
-    else if(value == "qrfalse"){
-      Swal.fire({
-            title: 'Transaksi Gagal QR Code Tidak Valid',
-            icon: 'error',
-            // showCancelButton: true,
-            confirmButtonText: 'Ok',
-            // cancelButtonText: 'Ga dulu'
-        }).then((resultSwal) => {
-            if (resultSwal.isConfirmed) {
-            // logika untuk mengirim data ke server
-            window.location.replace('https://qrmeet.test/index.php/kantin');
-            }
-        });
-    }
-    else{
-        Swal.fire({
-            title: 'Transaksi Gagal Anda Sudah Mangan',
-            icon: 'error',
-            // showCancelButton: true,
-            confirmButtonText: 'Ok',
-            // cancelButtonText: 'Ga dulu'
-        }).then((resultSwal) => {
-            if (resultSwal.isConfirmed) {
-            // logika untuk mengirim data ke server
-            window.location.replace('https://qrmeet.test/index.php/kantin');
-            }
-        });
-    }
-        }
-  </script>
 </html>

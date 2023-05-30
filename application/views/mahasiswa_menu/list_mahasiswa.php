@@ -55,6 +55,9 @@
                     <th>Prodi Mahasiswa</th>
                     <th>Jurusan Mahasiswa</th>
                     <th>Universitas Mahasiswa</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Telepon</th>
+                    <th>Status Pemagang</th>
                     <th>Created by</th>
                     <th>Update</th>
                     <th>Delete</th>

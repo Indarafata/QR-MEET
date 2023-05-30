@@ -51,21 +51,29 @@ class Login extends CI_Controller
                     // $this->load->view('mahasiswa_role/qr_scanner/qr_scanner');
                     // $this->load->view('mahasiswa_menu/list_mahasiswa');
                 } else {
+                    // $date = date('Y-m-d');
+                    $date = date('Y-m-d H:i:s');
                     // check database mahasiswaa
+                    // $mahasiswa= $this->db->query("SELECT * FROM USER_MAHASISWA WHERE USERNAME = '$username' AND PASSWORD = '$password' AND MAHASISWA_END_DATE <= '$date'")->result_array()[0];
                     $mahasiswa= $this->db->query("SELECT * FROM USER_MAHASISWA WHERE USERNAME = '$username' AND PASSWORD = '$password'")->result_array()[0];
                     if($mahasiswa){
                     $_SESSION['logged_in_user_name'] = $username;
-                    // hapus cache halaman sebelumnya
-                    header("Cache-Control: no-cache, no-store, must-revalidate");
-                    header("Pragma: no-cache");
-                    header("Expires: 0");
-                    echo '<script>window.history.replaceState(null, null, "'.base_url('kantin').'");</script>';
                     redirect('/kantin');
                     // $this->load->view('mahasiswa_role/qr_scanner/qr_scanner');
                     // $this->load->view('mahasiswa_role/qr_scanner/confirmation');
                     }
                     else {
-                        $this->session->set_flashdata('message', "<div class='alert alert-danger'>" . $response->responText . "</div>");
+                        // $booth = $this->db->query("SELECT * FROM BOOTH WHERE USERNAME = '$username' AND PASSWORD = '$password'")->result_array()[0];
+                        if($this->db->query("SELECT * FROM USER_MAHASISWA WHERE USERNAME = '$username' AND PASSWORD = '$password' AND MAHASISWA_END_DATE < '$date'")->result_array()[0]){
+                            $this->session->set_flashdata('message', "<div class='alert alert-danger'>User Tidak Aktif</div>");
+                        }
+                        else if($this->db->query("SELECT * FROM BOOTH WHERE USERNAME = '$username' AND PASSWORD = '$password'")->result_array()[0]){
+                            $_SESSION['logged_in_user_name'] = $username;
+                            redirect('/kantin/history');
+                        }
+                        else{
+                            $this->session->set_flashdata('message', "<div class='alert alert-danger'>" . $response->responText . "</div>");
+                        }
                         redirect('login');
                     }
                 }
@@ -162,8 +170,13 @@ class Login extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('session_meeting');
-        $this->session->unset_userdata('session_meeting_temp');
+        if (isset($this->session->userdata['session_msession_meeting_tempeeting'])) {
+            $this->session->unset_userdata('session_meeting');
+            $this->session->unset_userdata('session_meeting_temp');
+        }
+        else{
+            unset($_SESSION['logged_in_user_name']);
+        }
         redirect('login');
     }
 
